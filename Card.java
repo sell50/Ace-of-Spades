@@ -12,7 +12,10 @@ public class Card
 	 * */
 	public Card (int cardNumber, String cardSuit) 
 	{
+		//Updating Global Card Number
 		this.cardNumber = cardNumber;
+		
+		//Updating Global Card Suit
 		this.cardSuit = cardSuit;
 	}
 }
