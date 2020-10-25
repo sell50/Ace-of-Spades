@@ -375,21 +375,21 @@ public class Poker {
         ////////////////////// the flushes
         if (mixCard[2].cardNumber == 10 && mixCard[3].cardNumber == 11 && mixCard[4].cardNumber == 12 && mixCard[5].cardNumber == 13 && mixCard[6].cardNumber == 14) {//rpyal flush
             if(mixCard[2].cardSuit .equals(mixCard[3].cardSuit) && mixCard[3].cardSuit .equals(mixCard[4].cardSuit) && mixCard[4].cardSuit .equals(mixCard[5].cardSuit) && mixCard[5].cardSuit .equals(mixCard[6].cardSuit) ) {//checks if it is a straight flush
-                System.out.println("10");
+                //System.out.println("10");
                 return (10);
             }
         }
 
         if((mixCard[0].cardNumber == mixCard[1].cardNumber +1 && mixCard[1].cardNumber == mixCard[2].cardNumber +1 && mixCard[2].cardNumber == mixCard[3].cardNumber +1 && mixCard[3].cardNumber == mixCard[4].cardNumber +1 )){//checks if it is a straight flush
             if(mixCard[0].cardSuit .equals(mixCard[1].cardSuit) && mixCard[1].cardSuit .equals(mixCard[2].cardSuit) && mixCard[2].cardSuit .equals(mixCard[3].cardSuit) && mixCard[3].cardSuit .equals(mixCard[4].cardSuit) ) {
-                System.out.println("9");
+                //System.out.println("9");
                 return (9);
             }
         }
 
         if((mixCard[1].cardNumber == mixCard[2].cardNumber +1 && mixCard[2].cardNumber == mixCard[3].cardNumber +1 && mixCard[3].cardNumber == mixCard[4].cardNumber +1 && mixCard[4].cardNumber == mixCard[5].cardNumber +1 )){//checks if it is a straight flush
             if(mixCard[1].cardSuit .equals(mixCard[2].cardSuit) && mixCard[2].cardSuit .equals(mixCard[3].cardSuit) && mixCard[3].cardSuit .equals(mixCard[4].cardSuit) && mixCard[4].cardSuit .equals(mixCard[5].cardSuit) ) {
-                System.out.println("9");
+                //System.out.println("9");
                 return (9);
             }
 
@@ -397,7 +397,7 @@ public class Poker {
 
         if((mixCard[2].cardNumber == mixCard[3].cardNumber +1 && mixCard[3].cardNumber == mixCard[4].cardNumber +1 && mixCard[4].cardNumber == mixCard[5].cardNumber +1 && mixCard[5].cardNumber == mixCard[6].cardNumber +1 )) {//checks if it is a straight flush
             if(mixCard[2].cardSuit .equals(mixCard[3].cardSuit) && mixCard[3].cardSuit .equals(mixCard[4].cardSuit) && mixCard[4].cardSuit .equals(mixCard[5].cardSuit) && mixCard[5].cardSuit .equals(mixCard[6].cardSuit) ) {
-                System.out.println("9");
+                //System.out.println("9");
                 return (9);
             }
         }
@@ -413,7 +413,7 @@ public class Poker {
                 }
             }
             if(x==3){
-                System.out.println("8");
+                //System.out.println("8");
                 return(8);
             }
         }
@@ -424,7 +424,7 @@ public class Poker {
 
         if(mixCard[0].cardNumber == mixCard[1].cardNumber||mixCard[5].cardNumber == mixCard[6].cardNumber){
             if((mixCard[2].cardNumber == mixCard[3].cardNumber&&mixCard[3].cardNumber == mixCard[4].cardNumber&&mixCard[4].cardNumber == mixCard[5].cardNumber&&mixCard[5].cardNumber == mixCard[6].cardNumber)||(mixCard[0].cardNumber == mixCard[1].cardNumber&&mixCard[1].cardNumber == mixCard[2].cardNumber&&mixCard[2].cardNumber == mixCard[3].cardNumber&&mixCard[3].cardNumber == mixCard[4].cardNumber)){
-                System.out.println("7");
+                //System.out.println("7");
                 return(7);
             }
         }
@@ -440,7 +440,7 @@ public class Poker {
                 }
             }
             if(x==4){
-                System.out.println("6");
+                //System.out.println("6");
                 return (6);
             }
 
@@ -458,7 +458,7 @@ public class Poker {
                 }
             }
             if(x==4){
-                System.out.println("5");
+                //System.out.println("5");
                 return (5);
             }
 
@@ -479,7 +479,7 @@ public class Poker {
                 }
             }
             if(x==2){
-                System.out.println("4");
+                //System.out.println("4");
                 return (4);
             }
 
@@ -494,7 +494,7 @@ public class Poker {
             if(mixCard[i].cardNumber==mixCard[i+1].cardNumber){
                 for(int j=i+2;j<6;j++){
                     if(mixCard[j].cardNumber==mixCard[j+1].cardNumber){
-                        System.out.println("3");
+                        //System.out.println("3");
                         return (3);
                     }
                 }
@@ -508,7 +508,7 @@ public class Poker {
 
         for(int i=0;i<6;i++){
             if(mixCard[i].cardNumber==mixCard[i+1].cardNumber){
-                System.out.println("2");
+                //.out.println("2");
                 return (2);
             }
         }
