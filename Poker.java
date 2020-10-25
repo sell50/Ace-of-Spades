@@ -38,10 +38,11 @@ public class Poker {
     public void startGame(){
         Scanner sc=new Scanner(System.in);
 
-        boolean fold = false;
-        int temp = 0, round=0;
 
-        for(int i=0; i<3;i++) {//the bigger do while is to see if they want to keep betting or if they want to draw out their money
+        boolean fold = false;
+        int temp = 0, winCount=0;
+
+        for(int i=0; i<3;i++) {//loops 3 times so gives the user 3 rounds to play
 
             System.out.println("Round :"+(i+1));
             this.distributeCards();
@@ -73,12 +74,14 @@ public class Poker {
             if(temp == 0){
                 System.out.println("You have won.");
                 amount[0][0]=amount[0][0]+this.totalBet;
+                winCount++;
             }else{
                 System.out.println("You Lost the round.");
             }
             this.reset();
 
         }
+        System.out.println("You won "+winCount+" times.");
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -301,15 +304,17 @@ public class Poker {
         this.userOptions();
         int x = this.points(this.hands[0]);//player hands point
 
-        for(int i=1;i<6;i++){
-            if(x==points(this.hands[i])){
-                //put finding who has higher cards here
-                if(highCard(i)==true){
-                    return(1);
+        for(int i=1;i<6;i++) {
+            if (this.amount[i][2]==0){
+                if (x == points(this.hands[i])) {
+                    //put finding who has higher cards here
+                    if (highCard(i) == true) {
+                        return (1);
+                    }
+                } else if (x < points(this.hands[i])) {
+                    return (1);
                 }
-            }else if(x<points(this.hands[i])){
-                return(1);
-            }
+        }
         }
 
         return(0);
