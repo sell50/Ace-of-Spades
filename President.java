@@ -38,10 +38,10 @@ public class President
 		this.pileDeck = new Card[16];
 		this.deck = new DeckofCards();
 		deck.ShuffleDeck(deck.Deck);
-		this.player = new Player(3);
-		this.aiPlayer1 = new Player(3);
-		this.aiPlayer2 = new Player(3);
-		this.aiPlayer3 = new Player(3);
+		this.player = new Player(13);
+		this.aiPlayer1 = new Player(13);
+		this.aiPlayer2 = new Player(13);
+		this.aiPlayer3 = new Player(13);
 		
 		System.out.println("\n\tROUND 2 GO!!!");
 		
@@ -50,10 +50,10 @@ public class President
 		this.pileDeck = new Card[16];
 		this.deck = new DeckofCards();
 		deck.ShuffleDeck(deck.Deck);
-		this.player = new Player(3);
-		this.aiPlayer1 = new Player(3);
-		this.aiPlayer2 = new Player(3);
-		this.aiPlayer3 = new Player(3);
+		this.player = new Player(13);
+		this.aiPlayer1 = new Player(13);
+		this.aiPlayer2 = new Player(13);
+		this.aiPlayer3 = new Player(13);
 		
 		System.out.println("\n\tROUND 3 GO!!!"); //ends after 3 rounds
 		startGame(); 
@@ -72,7 +72,7 @@ public class President
 		playerAICards(aiPlayer3);
 		System.out.println("\tNow the Scum will give their best 2 cars to the President, and the President will give their 2 worst cards to the Scum.\n\tThen the Civilian will give their best card to the Vice-President, and the VIce-President will give their worst card to the Civilian.\n");
 		switch2Cards();
-	//	switch1Card();
+		switch1Card();
 		
 		System.out.println("\tNow the President will go first\n");
 		
@@ -259,11 +259,13 @@ public class President
 	
 	public void switch2Cards() //switches the 2 best and worst cards between the president and the Scum
 	{
+		Card bestCard = null;
+		Card worstCard = null;
 		Card tempCard;
-		Player bestCards = new Player(2);
-		Player worstCards = new Player(2);
 		
 		int length = this.player.playerHand.Hand.length;
+		for(int count = 0; count < 2; count++)
+		{
 		if(socialRank[0] == "player")
 		{
 			for(int i = 0; i < length - 1; i++)
@@ -274,8 +276,7 @@ public class President
 						this.player.playerHand.Hand[j] = this.player.playerHand.Hand[j + 1];
 						this.player.playerHand.Hand[j + 1] = tempCard;
 					}
-			worstCards.playerHand.Hand[0] = this.player.playerHand.Hand[0];
-			worstCards.playerHand.Hand[1] = this.player.playerHand.Hand[1];
+			worstCard = this.player.playerHand.Hand[count];
 		}
 		if(socialRank[0] == "aiplayer1")
 		{
@@ -287,8 +288,7 @@ public class President
 						this.aiPlayer1.playerHand.Hand[j] = this.aiPlayer1.playerHand.Hand[j + 1];
 						this.aiPlayer1.playerHand.Hand[j + 1] = tempCard;
 					}
-			worstCards.playerHand.Hand[0] = this.aiPlayer1.playerHand.Hand[0];
-			worstCards.playerHand.Hand[1] = this.aiPlayer1.playerHand.Hand[1];
+			worstCard = this.aiPlayer1.playerHand.Hand[count];
 		}
 		if(socialRank[0] == "aiplayer2")
 		{
@@ -300,8 +300,7 @@ public class President
 						this.aiPlayer2.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
 						this.aiPlayer2.playerHand.Hand[j + 1] = tempCard;
 					}
-			worstCards.playerHand.Hand[0] = this.aiPlayer2.playerHand.Hand[0];
-			worstCards.playerHand.Hand[1] = this.aiPlayer2.playerHand.Hand[1];
+			worstCard = this.aiPlayer2.playerHand.Hand[count];
 		}
 		if(socialRank[0] == "aiplayer3")
 		{
@@ -313,8 +312,7 @@ public class President
 						this.aiPlayer3.playerHand.Hand[j] = this.aiPlayer3.playerHand.Hand[j + 1];
 						this.aiPlayer3.playerHand.Hand[j + 1] = tempCard;
 					}
-			worstCards.playerHand.Hand[0] = this.aiPlayer3.playerHand.Hand[0];
-			worstCards.playerHand.Hand[1] = this.aiPlayer3.playerHand.Hand[1];
+			worstCard = this.aiPlayer3.playerHand.Hand[count];
 		}
 		
 		if(socialRank[3] == "player")
@@ -327,8 +325,7 @@ public class President
 						this.player.playerHand.Hand[j] = this.player.playerHand.Hand[j + 1];
 						this.player.playerHand.Hand[j + 1] = tempCard;
 					}
-			bestCards.playerHand.Hand[0] = this.player.playerHand.Hand[0];
-			bestCards.playerHand.Hand[1] = this.player.playerHand.Hand[1];
+			bestCard = this.player.playerHand.Hand[count];
 		}
 		if(socialRank[3] == "aiplayer1")
 		{
@@ -340,8 +337,7 @@ public class President
 						this.aiPlayer1.playerHand.Hand[j] = this.aiPlayer1.playerHand.Hand[j + 1];
 						this.aiPlayer1.playerHand.Hand[j + 1] = tempCard;
 					}
-			bestCards.playerHand.Hand[0] = this.aiPlayer1.playerHand.Hand[0];
-			bestCards.playerHand.Hand[1] = this.aiPlayer1.playerHand.Hand[1];
+			bestCard = this.aiPlayer1.playerHand.Hand[count];
 		}
 		if(socialRank[3] == "aiplayer2")
 		{
@@ -353,8 +349,7 @@ public class President
 						this.aiPlayer2.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
 						this.aiPlayer2.playerHand.Hand[j + 1] = tempCard;
 					}
-			bestCards.playerHand.Hand[0] = this.aiPlayer2.playerHand.Hand[0];
-			bestCards.playerHand.Hand[1] = this.aiPlayer2.playerHand.Hand[1];
+			bestCard = this.aiPlayer2.playerHand.Hand[count];
 		}
 		if(socialRank[3] == "aiplayer3")
 		{
@@ -366,60 +361,184 @@ public class President
 						this.aiPlayer3.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
 						this.aiPlayer3.playerHand.Hand[j + 1] = tempCard;
 					}
-			bestCards.playerHand.Hand[0] = this.aiPlayer3.playerHand.Hand[0];
-			bestCards.playerHand.Hand[1] = this.aiPlayer3.playerHand.Hand[1];
+			bestCard = this.aiPlayer3.playerHand.Hand[count];
 		}
 		
 		if(socialRank[0] == "player")
 		{
-			this.player.playerHand.Hand[0] = bestCards.playerHand.Hand[0];
-			this.player.playerHand.Hand[1] = bestCards.playerHand.Hand[1];
+			this.player.playerHand.Hand[0] = bestCard;
 		}
 		if(socialRank[0] == "aiplayer1")
 		{
-			this.aiPlayer1.playerHand.Hand[0] = bestCards.playerHand.Hand[0];
-			this.aiPlayer1.playerHand.Hand[1] = bestCards.playerHand.Hand[1];
+			this.aiPlayer1.playerHand.Hand[0] = bestCard;
 		}
 		if(socialRank[0] == "aiplayer2")
 		{
-			this.aiPlayer2.playerHand.Hand[0] = bestCards.playerHand.Hand[0];
-			this.aiPlayer2.playerHand.Hand[1] = bestCards.playerHand.Hand[1];
+			this.aiPlayer2.playerHand.Hand[0] = bestCard;
 		}
 		if(socialRank[0] == "aiplayer3")
 		{
-			this.aiPlayer3.playerHand.Hand[0] = bestCards.playerHand.Hand[0];
-			this.aiPlayer3.playerHand.Hand[1] = bestCards.playerHand.Hand[1];
+			this.aiPlayer3.playerHand.Hand[0] = bestCard;
 		}
 		
 		if(socialRank[3] == "player")
 		{
-			this.player.playerHand.Hand[0] = worstCards.playerHand.Hand[0];
-			this.player.playerHand.Hand[1] = worstCards.playerHand.Hand[1];
+			this.player.playerHand.Hand[0] = worstCard;
 		}
 		if(socialRank[3] == "aiplayer1")
 		{
-			this.aiPlayer1.playerHand.Hand[0] = worstCards.playerHand.Hand[0];
-			this.aiPlayer1.playerHand.Hand[1] = worstCards.playerHand.Hand[1];
+			this.aiPlayer1.playerHand.Hand[0] = worstCard;
 		}
 		if(socialRank[3] == "aiplayer2")
 		{
-			this.aiPlayer2.playerHand.Hand[0] = worstCards.playerHand.Hand[0];
-			this.aiPlayer2.playerHand.Hand[1] = worstCards.playerHand.Hand[1];
+			this.aiPlayer2.playerHand.Hand[0] = worstCard;
 		}
 		if(socialRank[3] == "aiplayer3")
 		{
-			this.aiPlayer3.playerHand.Hand[0] = worstCards.playerHand.Hand[0];
-			this.aiPlayer3.playerHand.Hand[1] = worstCards.playerHand.Hand[1];
+			this.aiPlayer3.playerHand.Hand[0] = worstCard;
 		}
-		
+		}
 	}
 	
 	public void switch1Card() //switches the best and worst card between the Vice-President and the Civilian
 	{
 		Card bestCard = null;
 		Card worstCard = null;
+		Card tempCard;
 		
+		int length = this.player.playerHand.Hand.length;
+		if(socialRank[1] == "player")
+		{
+			for(int i = 0; i < length - 1; i++)
+				for(int j = 0; j < length - i - 1; j++)
+					if(this.player.playerHand.Hand[j].cardNumber > this.player.playerHand.Hand[j + 1].cardNumber)
+					{
+						tempCard = this.player.playerHand.Hand[j];
+						this.player.playerHand.Hand[j] = this.player.playerHand.Hand[j + 1];
+						this.player.playerHand.Hand[j + 1] = tempCard;
+					}
+			worstCard = this.player.playerHand.Hand[0];
+		}
+		if(socialRank[1] == "aiplayer1")
+		{
+			for(int i = 0; i < length - 1; i++)
+				for(int j = 0; j < length - i - 1; j++)
+					if(this.aiPlayer1.playerHand.Hand[j].cardNumber > this.aiPlayer1.playerHand.Hand[j + 1].cardNumber)
+					{
+						tempCard = this.aiPlayer1.playerHand.Hand[j];
+						this.aiPlayer1.playerHand.Hand[j] = this.aiPlayer1.playerHand.Hand[j + 1];
+						this.aiPlayer1.playerHand.Hand[j + 1] = tempCard;
+					}
+			worstCard = this.aiPlayer1.playerHand.Hand[0];
+		}
+		if(socialRank[1] == "aiplayer2")
+		{
+			for(int i = 0; i < length - 1; i++)
+				for(int j = 0; j < length - i - 1; j++)
+					if(this.aiPlayer2.playerHand.Hand[j].cardNumber > this.aiPlayer2.playerHand.Hand[j + 1].cardNumber)
+					{
+						tempCard = this.aiPlayer2.playerHand.Hand[j];
+						this.aiPlayer2.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
+						this.aiPlayer2.playerHand.Hand[j + 1] = tempCard;
+					}
+			worstCard = this.aiPlayer2.playerHand.Hand[0];
+		}
+		if(socialRank[1] == "aiplayer3")
+		{
+			for(int i = 0; i < length - 1; i++)
+				for(int j = 0; j < length - i - 1; j++)
+					if(this.aiPlayer3.playerHand.Hand[j].cardNumber > this.aiPlayer3.playerHand.Hand[j + 1].cardNumber)
+					{
+						tempCard = this.aiPlayer1.playerHand.Hand[j];
+						this.aiPlayer3.playerHand.Hand[j] = this.aiPlayer3.playerHand.Hand[j + 1];
+						this.aiPlayer3.playerHand.Hand[j + 1] = tempCard;
+					}
+			worstCard = this.aiPlayer3.playerHand.Hand[0];
+		}
 		
+		if(socialRank[2] == "player")
+		{
+			for(int i = 0; i < length - 1; i++)
+				for(int j = 0; j < length - i - 1; j++)
+					if(this.player.playerHand.Hand[j].cardNumber < this.player.playerHand.Hand[j + 1].cardNumber)
+					{
+						tempCard = this.player.playerHand.Hand[j];
+						this.player.playerHand.Hand[j] = this.player.playerHand.Hand[j + 1];
+						this.player.playerHand.Hand[j + 1] = tempCard;
+					}
+			bestCard = this.player.playerHand.Hand[0];
+		}
+		if(socialRank[2] == "aiplayer1")
+		{
+			for(int i = 0; i < length - 1; i++)
+				for(int j = 0; j < length - i - 1; j++)
+					if(this.aiPlayer1.playerHand.Hand[j].cardNumber < this.aiPlayer1.playerHand.Hand[j + 1].cardNumber)
+					{
+						tempCard = this.aiPlayer1.playerHand.Hand[j];
+						this.aiPlayer1.playerHand.Hand[j] = this.aiPlayer1.playerHand.Hand[j + 1];
+						this.aiPlayer1.playerHand.Hand[j + 1] = tempCard;
+					}
+			bestCard = this.aiPlayer1.playerHand.Hand[0];
+		}
+		if(socialRank[2] == "aiplayer2")
+		{
+			for(int i = 0; i < length - 1; i++)
+				for(int j = 0; j > length - i - 1; j++)
+					if(this.aiPlayer2.playerHand.Hand[j].cardNumber < this.aiPlayer2.playerHand.Hand[j + 1].cardNumber)
+					{
+						tempCard = this.aiPlayer2.playerHand.Hand[j];
+						this.aiPlayer2.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
+						this.aiPlayer2.playerHand.Hand[j + 1] = tempCard;
+					}
+			bestCard = this.aiPlayer2.playerHand.Hand[0];
+		}
+		if(socialRank[2] == "aiplayer3")
+		{
+			for(int i = 0; i < length - 1; i++)
+				for(int j = 0; j > length - i - 1; j++)
+					if(this.aiPlayer3.playerHand.Hand[j].cardNumber < this.aiPlayer3.playerHand.Hand[j + 1].cardNumber)
+					{
+						tempCard = this.aiPlayer2.playerHand.Hand[j];
+						this.aiPlayer3.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
+						this.aiPlayer3.playerHand.Hand[j + 1] = tempCard;
+					}
+			bestCard = this.aiPlayer3.playerHand.Hand[0];
+		}
+		
+		if(socialRank[1] == "player")
+		{
+			this.player.playerHand.Hand[0] = bestCard;
+		}
+		if(socialRank[1] == "aiplayer1")
+		{
+			this.aiPlayer1.playerHand.Hand[0] = bestCard;
+		}
+		if(socialRank[1] == "aiplayer2")
+		{
+			this.aiPlayer2.playerHand.Hand[0] = bestCard;
+		}
+		if(socialRank[1] == "aiplayer3")
+		{
+			this.aiPlayer3.playerHand.Hand[0] = bestCard;
+		}
+		
+		if(socialRank[2] == "player")
+		{
+			this.player.playerHand.Hand[0] = worstCard;
+		}
+		if(socialRank[2] == "aiplayer1")
+		{
+			this.aiPlayer1.playerHand.Hand[0] = worstCard;
+		}
+		if(socialRank[2] == "aiplayer2")
+		{
+			this.aiPlayer2.playerHand.Hand[0] = worstCard;
+		}
+		if(socialRank[2] == "aiplayer3")
+		{
+			this.aiPlayer3.playerHand.Hand[0] = worstCard;
+		}
+	
 	}
 
 	public void assignSocialRanking(String str)//assigns a social rank for each string by placing the names in an array with its index indicating the rank
