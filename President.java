@@ -11,13 +11,13 @@ public class President
 	Player aiPlayer2;
 	Player aiPlayer3;
 	Card[] pileDeck;
-	
+	int cardsDrawn;
 	//needed variables
-	int cardsDrawn = 0;
 	int playerChoice;
 	int index = 0;
 	String[] socialRank = {"player", "aiPlayer1", "aiPlayer2", "aiPlayer3"};
-	int socialRankIndex = 0;
+	boolean gameFlag;
+	int gameRounds;
 	
 	President() //call to constructor starts the game
 	{
@@ -29,11 +29,16 @@ public class President
 		this.aiPlayer2 = new Player(13);
 		this.aiPlayer3 = new Player(13);
 		this.input = new Scanner(System.in);
+		gameFlag = true;
+		gameRounds = 0;
 
+		
+		System.out.println("\tThe President is " + socialRank[0] + "\n\tThe Vice-President is " + socialRank[1] + "\n\tThe Civilian is " + socialRank[2] + "\n\tThe Scum is " + socialRank[3]);		
 		System.out.println("\tThe game is President and you will play for 3 rounds...ROUND 1 GO!!!");
 		startGame(); //calls method startGame
+		checkPlayerRank();
 		
-		System.out.println("\tThe President is " + socialRank[0] + "\n\tThe Vice-President is " + socialRank[1] + "\n\tThe Civilian is " + socialRank[2] + "\n\tThe Scum is " + socialRank[3]);
+		System.out.println("\tThe President is " + socialRank[0] + "\n\tThe Vice-President is " + socialRank[1] + "\n\tThe Civilian is " + socialRank[2] + "\n\tThe Scum is " + socialRank[3]);		
 		
 		this.pileDeck = new Card[16];
 		this.deck = new DeckofCards();
@@ -42,10 +47,13 @@ public class President
 		this.aiPlayer1 = new Player(13);
 		this.aiPlayer2 = new Player(13);
 		this.aiPlayer3 = new Player(13);
+		gameFlag = true;
+		gameRounds = 0;
 		
 		System.out.println("\n\tROUND 2 GO!!!");
 		
 		startGame();
+		checkPlayerRank();
 		
 		this.pileDeck = new Card[16];
 		this.deck = new DeckofCards();
@@ -54,16 +62,21 @@ public class President
 		this.aiPlayer1 = new Player(13);
 		this.aiPlayer2 = new Player(13);
 		this.aiPlayer3 = new Player(13);
+		gameFlag = true;
+		gameRounds = 0;
 		
+		System.out.println("\tThe President is " + socialRank[0] + "\n\tThe Vice-President is " + socialRank[1] + "\n\tThe Civilian is " + socialRank[2] + "\n\tThe Scum is " + socialRank[3]);
 		System.out.println("\n\tROUND 3 GO!!!"); //ends after 3 rounds
 		startGame(); 
-		
+		checkPlayerRank();
+		System.out.println("\tThe President is " + socialRank[0] + "\n\tThe Vice-President is " + socialRank[1] + "\n\tThe Civilian is " + socialRank[2] + "\n\tThe Scum is " + socialRank[3]);
+
 		System.out.println("\n\tThanks for playing! GG!");
 	}
 	
 	public void startGame() //starts the game and starts by switching the cards of the President & Scum, and the Vice-President & Civilian
 	{
-		
+		this.cardsDrawn = 0;
 		System.out.println("\tPRESIDENT! First we deal the cards\n");
 		
 		dealCards(this.cardsDrawn, this.deck, this.player.playerHand);	 //deals the cards to all the players
@@ -81,42 +94,94 @@ public class President
 	
 	public void gameSession()
 	{
-		
-		for(int i = 0; i < 4; i++) //i = 0 is president to i = 4 which is scum which goes through to check what social rank each player is
+		if(gameFlag) //if gameFlag is true
 		{
-			if(socialRank[i] == "player")
+			gameRounds++; //increment gameRounds
+			
+			for(int i = 0; i < 4; i++) //i = 0 is president to i = 4 which is scum which goes through to check what social rank each player is
 			{
-				checkEmptyHands("player");
-				playerTurn();
+				if(socialRank[i] == "player")
+				{
+					
+					if(this.player.playerHand.Hand.length == 0)
+						continue;
+					else
+						playerTurn();
+				}
+				if(socialRank[i] == "aiPlayer1")
+				{
+					if(this.aiPlayer1.playerHand.Hand.length == 0)
+						continue;
+					else
+						this.aiPlayer1 = aiPlayerTurn(this.aiPlayer1);
+				}
+				if(socialRank[i] == "aiPlayer2")
+				{
+					if(this.aiPlayer2.playerHand.Hand.length == 0)
+						continue;
+					else
+						this.aiPlayer2 = aiPlayerTurn(this.aiPlayer2);
+				}
+				if(socialRank[i] == "aiPlayer3")
+				{
+					if(this.aiPlayer3.playerHand.Hand.length == 0)
+						continue;
+					else
+						this.aiPlayer3 = aiPlayerTurn(this.aiPlayer3);
+				}
 			}
-			if(socialRank[i] == "aiPlayer1")
-			{
-				checkEmptyHands("aiPlayer1");
-				this.aiPlayer1 = aiPlayerTurn(this.aiPlayer1);
-			}
-			if(socialRank[i] == "aiPlayer2")
-			{
-				checkEmptyHands("aiPlayer2");
-				this.aiPlayer2 = aiPlayerTurn(this.aiPlayer2);
-			}
-			if(socialRank[i] == "aiPlayer3")
-			{
-				checkEmptyHands("aiPlayer3");
-				this.aiPlayer3 = aiPlayerTurn(this.aiPlayer3);
-			}
-		}
 		
-		if(checkforNewPile()) //creates a new pile of cards if current one cannot be used anymore
-		{
-			System.out.println("\tNo one else can play a card...New pile!\n");
-			this.pileDeck = new Card[52];
-			this.index = 0;
-		}
-		
-		if(this.player.playerHand.Hand[0].cardNumber == 0)
-			return;
-		else
+			if(checkforNewPile()) //creates a new pile of cards if current one cannot be used anymore
+			{
+				System.out.println("\tNo one else can play a card...New pile!\n");
+				this.pileDeck = new Card[52];
+				this.index = 0;
+			}
+			
+			if(this.player.playerHand.Hand.length == 0) //if player hand is empty set gameFlag to false
+				gameFlag = false;
+			
+			
+			
 			gameSession(); //recursion method to keep the game going until the roles are filled
+		}
+		else //if gameFlag is false return 
+		{
+			return;
+		}
+			
+	}
+	
+	public void checkPlayerRank() //assigns player rank based on gameRounds. The later the game the lower the position the player gets 
+	{
+		if(gameRounds < 15)
+		{
+			socialRank[0] = "player";
+			socialRank[1] = "aiPlayer1";
+			socialRank[2] = "aiPlayer2";
+			socialRank[3] = "aiPlayer3";
+		}
+		if(gameRounds >= 15 && gameRounds < 30)
+		{
+			socialRank[1] = "player";
+			socialRank[0] = "aiPlayer1";
+			socialRank[2] = "aiPlayer2";
+			socialRank[3] = "aiPlayer3";
+		}
+		if(gameRounds >= 30 && gameRounds < 45)
+		{
+			socialRank[2] = "player";
+			socialRank[0] = "aiPlayer1";
+			socialRank[1] = "aiPlayer2";
+			socialRank[3] = "aiPlayer3";
+		}
+		if(gameRounds >= 45 && (gameRounds < 60 || gameRounds > 60))
+		{
+			socialRank[3] = "player";
+			socialRank[0] = "aiPlayer1";
+			socialRank[1] = "aiPlayer2";
+			socialRank[2] = "aiPlayer3";
+		}
 	}
 	
 	public void playerAICards(Player aiPlayer) //gets AI player cards
@@ -141,11 +206,6 @@ public class President
 	{
 		int length = player.playerHand.Hand.length;
 		
-		if(length == 1)
-		{
-			player.playerHand.Hand[0].cardNumber = 0;
-			return player;
-		}
 		Player tempHand = new Player(length - 1);
 		
 		for(int i = 0, j = 0; i < length; i++)
@@ -167,25 +227,25 @@ public class President
 		
 	}
 	
-	public void currentPile(int cardPlayed, Player player) //creates a pile of cards so we can keep track of the current card at the top
+	public void currentPile(int cardnumber, Card cardPlayed) //creates a pile of cards so we can keep track of the current card at the top
 	{
 		int index = 0;
-		pileDeck[index] = player.playerHand.Hand[cardPlayed];
+		pileDeck[index] = cardPlayed;
 		System.out.println("\tCurrent top card is " + pileDeck[index].cardNumber + " of " + pileDeck[index].cardSuit);
-		this.index = index++;
+		this.index += index++;
 	}
 	
 	public void playerTurn() //real playeres turn where they determine what card to play
 	{
-		
-
+		Card tempCard;
+		this.player.playerHand.DisplayHand();
 		System.out.printf("\tWhich card would you like to play? (Enter a number for between 1-13 for the card you would like to put in): ");
 		playerChoice = input.nextInt() - 1;
 		
 		if(this.player.playerHand.Hand[0].cardNumber == 0)
 			return;
-		
-		currentPile(playerChoice, this.player);
+		tempCard = this.player.playerHand.Hand[playerChoice];
+		currentPile(playerChoice, tempCard);
 		this.player = updatePlayerHand(playerChoice, this.player);
 		
 	}
@@ -193,10 +253,11 @@ public class President
 	public Player aiPlayerTurn(Player aiPlayer) //this is where the AI player determines what their move will be. If they play an invalid card it skips their turn
 	{
 		int aiPlayerChoice;
-		aiPlayer.playerHand.DisplayHand();
+		Card tempCard;
+		//aiPlayer.playerHand.DisplayHand();
 		System.out.printf("\tPlease wait for AI players to finish\n");
 		
-		aiPlayerChoice = aiPlayerChoice(aiPlayer);
+		aiPlayerChoice = 0;
 		
 		if(aiPlayer.playerHand.Hand[aiPlayerChoice].cardNumber < this.pileDeck[index].cardNumber)
 		{
@@ -205,30 +266,15 @@ public class President
 		}
 		else
 		{
-			currentPile(aiPlayerChoice, aiPlayer);
+			tempCard = aiPlayer.playerHand.Hand[aiPlayerChoice];
+			currentPile(aiPlayerChoice, tempCard);
 			return updatePlayerHand(aiPlayerChoice, aiPlayer);
 		}
-	}
-	
-	public int aiPlayerChoice(Player aiPlayer) //AI picks the next greatest card in their hand
-	{
-		int choice = 0;
-		int length = aiPlayer.playerHand.Hand.length;
-		
-		for(int i = 0; i < length; i++)
-			if(aiPlayer.playerHand.Hand[i].cardNumber > this.pileDeck[index].cardNumber)
-			{
-				choice = i;
-				break;
-			}
-		
-		return choice;
 	}
 	
 	public boolean checkforNewPile() //looks to see if any players have any playable cards and if not creates a new deck or if the top card is a 14 (ace) then it creates a new pile
 	{
 		int index = this.index;
-		System.out.println(index);
 		if(this.pileDeck[index].cardNumber == 14)
 			return true;
 		
@@ -278,7 +324,7 @@ public class President
 					}
 			worstCard = this.player.playerHand.Hand[count];
 		}
-		if(socialRank[0] == "aiplayer1")
+		if(socialRank[0] == "aiPlayer1")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j < length - i - 1; j++)
@@ -290,7 +336,7 @@ public class President
 					}
 			worstCard = this.aiPlayer1.playerHand.Hand[count];
 		}
-		if(socialRank[0] == "aiplayer2")
+		if(socialRank[0] == "aiPlayer2")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j < length - i - 1; j++)
@@ -302,7 +348,7 @@ public class President
 					}
 			worstCard = this.aiPlayer2.playerHand.Hand[count];
 		}
-		if(socialRank[0] == "aiplayer3")
+		if(socialRank[0] == "aiPlayer3")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j < length - i - 1; j++)
@@ -321,46 +367,50 @@ public class President
 				for(int j = 0; j < length - i - 1; j++)
 					if(this.player.playerHand.Hand[j].cardNumber < this.player.playerHand.Hand[j + 1].cardNumber)
 					{
-						tempCard = this.player.playerHand.Hand[j];
-						this.player.playerHand.Hand[j] = this.player.playerHand.Hand[j + 1];
-						this.player.playerHand.Hand[j + 1] = tempCard;
+						tempCard = this.player.playerHand.Hand[j + 1];
+						this.player.playerHand.Hand[j + 1] = this.player.playerHand.Hand[j];
+						this.player.playerHand.Hand[j] = tempCard;
 					}
 			bestCard = this.player.playerHand.Hand[count];
 		}
-		if(socialRank[3] == "aiplayer1")
+		if(socialRank[3] == "aiPlayer1")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j < length - i - 1; j++)
 					if(this.aiPlayer1.playerHand.Hand[j].cardNumber < this.aiPlayer1.playerHand.Hand[j + 1].cardNumber)
 					{
-						tempCard = this.aiPlayer1.playerHand.Hand[j];
-						this.aiPlayer1.playerHand.Hand[j] = this.aiPlayer1.playerHand.Hand[j + 1];
-						this.aiPlayer1.playerHand.Hand[j + 1] = tempCard;
+						tempCard = this.aiPlayer1.playerHand.Hand[j + 1];
+						this.aiPlayer1.playerHand.Hand[j + 1] = this.aiPlayer1.playerHand.Hand[j];
+						this.aiPlayer1.playerHand.Hand[j] = tempCard;
 					}
 			bestCard = this.aiPlayer1.playerHand.Hand[count];
 		}
-		if(socialRank[3] == "aiplayer2")
+		if(socialRank[3] == "aiPlayer2")
 		{
 			for(int i = 0; i < length - 1; i++)
-				for(int j = 0; j > length - i - 1; j++)
+				for(int j = 0; j < length - i - 1; j++)
 					if(this.aiPlayer2.playerHand.Hand[j].cardNumber < this.aiPlayer2.playerHand.Hand[j + 1].cardNumber)
 					{
-						tempCard = this.aiPlayer2.playerHand.Hand[j];
-						this.aiPlayer2.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
-						this.aiPlayer2.playerHand.Hand[j + 1] = tempCard;
+						tempCard = this.aiPlayer2.playerHand.Hand[j + 1];
+						this.aiPlayer2.playerHand.Hand[j + 1] = this.aiPlayer2.playerHand.Hand[j];
+						this.aiPlayer2.playerHand.Hand[j] = tempCard;
 					}
 			bestCard = this.aiPlayer2.playerHand.Hand[count];
 		}
-		if(socialRank[3] == "aiplayer3")
+		if(socialRank[3] == "aiPlayer3")
 		{
 			for(int i = 0; i < length - 1; i++)
-				for(int j = 0; j > length - i - 1; j++)
+			{
+				for(int j = 0; j < length - i - 1; j++)
+				{
 					if(this.aiPlayer3.playerHand.Hand[j].cardNumber < this.aiPlayer3.playerHand.Hand[j + 1].cardNumber)
 					{
-						tempCard = this.aiPlayer2.playerHand.Hand[j];
-						this.aiPlayer3.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
-						this.aiPlayer3.playerHand.Hand[j + 1] = tempCard;
+						tempCard = this.aiPlayer3.playerHand.Hand[j + 1];
+						this.aiPlayer3.playerHand.Hand[j + 1] = this.aiPlayer3.playerHand.Hand[j];
+						this.aiPlayer3.playerHand.Hand[j] = tempCard;
 					}
+				}
+			}
 			bestCard = this.aiPlayer3.playerHand.Hand[count];
 		}
 		
@@ -368,15 +418,15 @@ public class President
 		{
 			this.player.playerHand.Hand[0] = bestCard;
 		}
-		if(socialRank[0] == "aiplayer1")
+		if(socialRank[0] == "aiPlayer1")
 		{
 			this.aiPlayer1.playerHand.Hand[0] = bestCard;
 		}
-		if(socialRank[0] == "aiplayer2")
+		if(socialRank[0] == "aiPlayer2")
 		{
 			this.aiPlayer2.playerHand.Hand[0] = bestCard;
 		}
-		if(socialRank[0] == "aiplayer3")
+		if(socialRank[0] == "aiPlayer3")
 		{
 			this.aiPlayer3.playerHand.Hand[0] = bestCard;
 		}
@@ -385,15 +435,15 @@ public class President
 		{
 			this.player.playerHand.Hand[0] = worstCard;
 		}
-		if(socialRank[3] == "aiplayer1")
+		if(socialRank[3] == "aiPlayer1")
 		{
 			this.aiPlayer1.playerHand.Hand[0] = worstCard;
 		}
-		if(socialRank[3] == "aiplayer2")
+		if(socialRank[3] == "aiPlayer2")
 		{
 			this.aiPlayer2.playerHand.Hand[0] = worstCard;
 		}
-		if(socialRank[3] == "aiplayer3")
+		if(socialRank[3] == "aiPlayer3")
 		{
 			this.aiPlayer3.playerHand.Hand[0] = worstCard;
 		}
@@ -419,7 +469,7 @@ public class President
 					}
 			worstCard = this.player.playerHand.Hand[0];
 		}
-		if(socialRank[1] == "aiplayer1")
+		if(socialRank[1] == "aiPlayer1")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j < length - i - 1; j++)
@@ -431,7 +481,7 @@ public class President
 					}
 			worstCard = this.aiPlayer1.playerHand.Hand[0];
 		}
-		if(socialRank[1] == "aiplayer2")
+		if(socialRank[1] == "aiPlayer2")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j < length - i - 1; j++)
@@ -443,13 +493,13 @@ public class President
 					}
 			worstCard = this.aiPlayer2.playerHand.Hand[0];
 		}
-		if(socialRank[1] == "aiplayer3")
+		if(socialRank[1] == "aiPlayer3")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j < length - i - 1; j++)
 					if(this.aiPlayer3.playerHand.Hand[j].cardNumber > this.aiPlayer3.playerHand.Hand[j + 1].cardNumber)
 					{
-						tempCard = this.aiPlayer1.playerHand.Hand[j];
+						tempCard = this.aiPlayer3.playerHand.Hand[j];
 						this.aiPlayer3.playerHand.Hand[j] = this.aiPlayer3.playerHand.Hand[j + 1];
 						this.aiPlayer3.playerHand.Hand[j + 1] = tempCard;
 					}
@@ -462,45 +512,45 @@ public class President
 				for(int j = 0; j < length - i - 1; j++)
 					if(this.player.playerHand.Hand[j].cardNumber < this.player.playerHand.Hand[j + 1].cardNumber)
 					{
-						tempCard = this.player.playerHand.Hand[j];
-						this.player.playerHand.Hand[j] = this.player.playerHand.Hand[j + 1];
-						this.player.playerHand.Hand[j + 1] = tempCard;
+						tempCard = this.player.playerHand.Hand[j + 1];
+						this.player.playerHand.Hand[j + 1] = this.player.playerHand.Hand[j];
+						this.player.playerHand.Hand[j] = tempCard;
 					}
 			bestCard = this.player.playerHand.Hand[0];
 		}
-		if(socialRank[2] == "aiplayer1")
+		if(socialRank[2] == "aiPlayer1")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j < length - i - 1; j++)
 					if(this.aiPlayer1.playerHand.Hand[j].cardNumber < this.aiPlayer1.playerHand.Hand[j + 1].cardNumber)
 					{
-						tempCard = this.aiPlayer1.playerHand.Hand[j];
-						this.aiPlayer1.playerHand.Hand[j] = this.aiPlayer1.playerHand.Hand[j + 1];
-						this.aiPlayer1.playerHand.Hand[j + 1] = tempCard;
+						tempCard = this.aiPlayer1.playerHand.Hand[j + 1];
+						this.aiPlayer1.playerHand.Hand[j + 1] = this.aiPlayer1.playerHand.Hand[j];
+						this.aiPlayer1.playerHand.Hand[j] = tempCard;
 					}
 			bestCard = this.aiPlayer1.playerHand.Hand[0];
 		}
-		if(socialRank[2] == "aiplayer2")
+		if(socialRank[2] == "aiPlayer2")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j > length - i - 1; j++)
 					if(this.aiPlayer2.playerHand.Hand[j].cardNumber < this.aiPlayer2.playerHand.Hand[j + 1].cardNumber)
 					{
-						tempCard = this.aiPlayer2.playerHand.Hand[j];
-						this.aiPlayer2.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
-						this.aiPlayer2.playerHand.Hand[j + 1] = tempCard;
+						tempCard = this.aiPlayer2.playerHand.Hand[j + 1];
+						this.aiPlayer2.playerHand.Hand[j + 1] = this.aiPlayer2.playerHand.Hand[j];
+						this.aiPlayer2.playerHand.Hand[j] = tempCard;
 					}
 			bestCard = this.aiPlayer2.playerHand.Hand[0];
 		}
-		if(socialRank[2] == "aiplayer3")
+		if(socialRank[2] == "aiPlayer3")
 		{
 			for(int i = 0; i < length - 1; i++)
 				for(int j = 0; j > length - i - 1; j++)
 					if(this.aiPlayer3.playerHand.Hand[j].cardNumber < this.aiPlayer3.playerHand.Hand[j + 1].cardNumber)
 					{
-						tempCard = this.aiPlayer2.playerHand.Hand[j];
-						this.aiPlayer3.playerHand.Hand[j] = this.aiPlayer2.playerHand.Hand[j + 1];
-						this.aiPlayer3.playerHand.Hand[j + 1] = tempCard;
+						tempCard = this.aiPlayer3.playerHand.Hand[j + 1];
+						this.aiPlayer3.playerHand.Hand[j + 1] = this.aiPlayer3.playerHand.Hand[j];
+						this.aiPlayer3.playerHand.Hand[j] = tempCard;
 					}
 			bestCard = this.aiPlayer3.playerHand.Hand[0];
 		}
@@ -509,15 +559,15 @@ public class President
 		{
 			this.player.playerHand.Hand[0] = bestCard;
 		}
-		if(socialRank[1] == "aiplayer1")
+		if(socialRank[1] == "aiPlayer1")
 		{
 			this.aiPlayer1.playerHand.Hand[0] = bestCard;
 		}
-		if(socialRank[1] == "aiplayer2")
+		if(socialRank[1] == "aiPlayer2")
 		{
 			this.aiPlayer2.playerHand.Hand[0] = bestCard;
 		}
-		if(socialRank[1] == "aiplayer3")
+		if(socialRank[1] == "aiPlayer3")
 		{
 			this.aiPlayer3.playerHand.Hand[0] = bestCard;
 		}
@@ -526,53 +576,19 @@ public class President
 		{
 			this.player.playerHand.Hand[0] = worstCard;
 		}
-		if(socialRank[2] == "aiplayer1")
+		if(socialRank[2] == "aiPlayer1")
 		{
 			this.aiPlayer1.playerHand.Hand[0] = worstCard;
 		}
-		if(socialRank[2] == "aiplayer2")
+		if(socialRank[2] == "aiPlayer2")
 		{
 			this.aiPlayer2.playerHand.Hand[0] = worstCard;
 		}
-		if(socialRank[2] == "aiplayer3")
+		if(socialRank[2] == "aiPlayer3")
 		{
 			this.aiPlayer3.playerHand.Hand[0] = worstCard;
 		}
 	
 	}
 
-	public void assignSocialRanking(String str)//assigns a social rank for each string by placing the names in an array with its index indicating the rank
-	{
-		socialRank[socialRankIndex] = str;
-		socialRankIndex++;	
-	}
-	
-	public void checkEmptyHands(String str) //checks whether a player is ready to recieve a rank
-	{
-		for(int i = 0; i < 4; i++)
-			if(socialRank[i] == str)
-				return;
-		
-		if(str == "player")
-			if(this.player.playerHand.Hand[0].cardNumber == 0)
-				assignSocialRanking(str);
-			else
-				return;
-		else if(str == "aiplayer1")
-			if(this.aiPlayer1.playerHand.Hand[0].cardNumber == 0)
-				assignSocialRanking(str);
-			else
-				return;
-		else if(str == "aiplayer2")
-			if(this.aiPlayer2.playerHand.Hand[0].cardNumber == 0)
-				assignSocialRanking(str);
-			else
-				return;
-		else if(str == "aiplayer3")
-			if(this.aiPlayer3.playerHand.Hand[0].cardNumber == 0)
-				assignSocialRanking(str);
-			else
-				return;
-		
-	}
 }
