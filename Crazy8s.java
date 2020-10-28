@@ -75,8 +75,13 @@ public class Crazy8s {
 				System.out.println("Game Start!\n");
 				newGame = false;
 				//Deal 4 cards from top of Deck
-				DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
-				discardPile[0] = deck.Deck[currentDeckCard];
+				//DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
+				//discardPile[0] = deck.Deck[currentDeckCard];
+				RiggedHand();
+				Card c2 = new Card(deck.cardNumbers[0], deck.cardSuits[0]);
+				player.playerHand.DisplayHand();
+
+				discardPile[0] = c2;
 				System.out.println("\n\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
 				//Starting the n+1 Round (Recursion)
 				startGame();
@@ -96,8 +101,8 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							player.playerHand.Hand[i].cardNumber = 0;
-							player.playerHand.Hand[i].cardSuit = "";
+							player.playerHand.Hand[i].cardNumber = 1;
+							player.playerHand.Hand[i].cardSuit = "Hearts";
 							
 
 							//remove card from hand
@@ -122,10 +127,10 @@ public class Crazy8s {
 					{
 						if(player.playerHand.Hand[i].cardSuit.equals(discardPile[0].cardSuit)){
 							tempCard = player.playerHand.Hand[i];
-							tossCard(player.playerHand.Hand[i].cardSuit, tempCard);
+							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							player.playerHand.Hand[i].cardNumber = 0;
-							player.playerHand.Hand[i].cardSuit = "";
+							player.playerHand.Hand[i].cardNumber = 1;
+							player.playerHand.Hand[i].cardSuit = "Hearts";
 							
 							//remove card from hand
 
@@ -156,8 +161,8 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							player.playerHand.Hand[i].cardNumber = 0;
-							player.playerHand.Hand[i].cardSuit = "";
+							player.playerHand.Hand[i].cardNumber = 1;
+							player.playerHand.Hand[i].cardSuit = "Hearts";
 
 							//remove card
 
@@ -185,8 +190,8 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							player.playerHand.Hand[i].cardNumber = 0;
-							player.playerHand.Hand[i].cardSuit = "";
+							player.playerHand.Hand[i].cardNumber = 1;
+							player.playerHand.Hand[i].cardSuit = "Hearts";
 
 							//remove card
 
@@ -313,6 +318,15 @@ public class Crazy8s {
 	public void removeCard(Player playerHand, Card card){
 		//remove card
 		
+	}
+
+	public void RiggedHand()
+	{
+		for(int i = 0; i < 5; i++)
+		{
+			Card c1 = new Card(deck.cardNumbers[i+1], deck.cardSuits[0]);
+			player.playerHand.Hand[i] = c1;
+		}
 	}
 
 	public static void main(String[] args){
