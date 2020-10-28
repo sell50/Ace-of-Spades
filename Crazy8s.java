@@ -27,18 +27,25 @@ public class Crazy8s {
     Crazy8s(){
 		
 		//Needed objects
+		discardPile = new Card[52];
         deck = new DeckofCards();
         deck.ShuffleDeck(deck.Deck);
         player = new Player(cardsForHand);
 		str = new Scanner(System.in);
 		
+    }
+
+    public boolean startGame(){
+
 		//Needed variables
-		boolean start = true;
+		/*boolean start = true;
 		int decision;
 		Crazy8s crazy8s = new Crazy8s();
 		Scanner input = new Scanner(System.in);
 
-        while(start == true){
+		System.out.println("");
+		
+		while(start == true){
 			
 			//Prompt to start game
 			System.out.println("");
@@ -50,29 +57,16 @@ public class Crazy8s {
             
 			//Start game
 			if(decision == 1){
-				crazy8s = new Crazy8s();
+				crazy8s = new Crazy8s(); //help???
 				start = crazy8s.startGame();
             }
                 
             else{
                 start = false;
             }
-        }
-
-		//end game
-        System.out.println("");
-        System.out.println("Thanks for playing!");
-		System.out.println("x");
-		
-		input.close();
-    }
-
-    public boolean startGame(){
-
-		Scanner input = new Scanner(System.in);
+		}*/
 		int decision;
-
-        System.out.println("");
+		Scanner input = new Scanner(System.in);
         
 		//First Round
 		if(newGame == true & player.playerHand.Hand[0]==null & player.playerHand.Hand[1]==null & player.playerHand.Hand[2]==null & player.playerHand.Hand[3]==null & player.playerHand.Hand[4]==null)
@@ -177,7 +171,13 @@ public class Crazy8s {
             winner = true;
         }
 		
-		input.close();
+		//end game
+		/*
+		System.out.println("");
+        System.out.println("Thanks for playing!");
+		System.out.println("x");
+		
+		input.close();*/
 
 		return winner;
 		
@@ -231,6 +231,48 @@ public class Crazy8s {
 		int index = 0;
 		discardPile[index] = player.playerHand.Hand[cardPlayed];
 		System.out.println("\tCurrent top card is " + discardPile[index].cardNumber + " of " + discardPile[index].cardSuit);
+	}
+
+	public static void main(String[] args){
+
+		//Needed variables
+		boolean start = true;
+		int decision;
+		Crazy8s crazy8s = new Crazy8s();
+		Scanner input = new Scanner(System.in);
+
+		System.out.println("");
+		
+		while(start == true){
+			
+			//Prompt to start game
+			System.out.println("");
+			System.out.println("Welcome to Crazy8s!");
+			System.out.println("Ready to start Crazy8s?");
+			System.out.println("Type 1 for YES, or 2 for NO: ");
+			decision = input.nextInt();
+            System.out.println("");
+            
+			//Start game
+			if(decision == 1){
+				crazy8s = new Crazy8s(); //help???
+				start = crazy8s.startGame();
+            }
+                
+            else{
+                start = false;
+            }
+		}
+
+		//end game
+        System.out.println("");
+        System.out.println("Thanks for playing!");
+		System.out.println("x");
+		
+		input.close();
+
+		
+
 	}
     
 }
