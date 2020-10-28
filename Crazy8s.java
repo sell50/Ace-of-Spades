@@ -220,7 +220,7 @@ public class Crazy8s {
 			/*
 			System.out.println("");
 			System.out.println("Thanks for playing!");
-			System.out.println("x");
+			System.out.println("");
 			
 			input.close();*/
 
