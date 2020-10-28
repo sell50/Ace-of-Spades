@@ -77,7 +77,7 @@ public class Crazy8s {
 				//Deal 4 cards from top of Deck
 				DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
 				discardPile[0] = deck.Deck[currentDeckCard];
-				System.out.println("\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit);
+				System.out.println("\n\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
 				//Starting the n+1 Round (Recursion)
 				startGame();
 			}
@@ -86,8 +86,8 @@ public class Crazy8s {
 			else if(discardPile[0].cardNumber == player.playerHand.Hand[0].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[1].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[2].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[3].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[4].cardNumber)
 			{
 
-				System.out.println("You have a matching card!");
-				System.out.println("Discarding matching card now...");
+				System.out.println("\nYou have a matching card!");
+				System.out.println("Discarding matching card now...\n");
 
 				//discard card...
 				for(int i = 0; i<player.playerHand.Hand.length; i++)
@@ -96,43 +96,13 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							//remove card from hand
-
-							//System.out.println("\nYour cards:");
-							//player.playerHand.DisplayHand();
-						}
-						
-						/*else if(player.playerHand.Hand[i].cardNumber == discardPile[0].cardNumber){
-							tempCard = player.playerHand.Hand[1];
-							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
-
-							System.out.println("Your cards:");
-							player.playerHand.DisplayHand();
-						}
+							player.playerHand.Hand[i].cardNumber = 0;
+							player.playerHand.Hand[i].cardSuit = "";
 							
-						else if(player.playerHand.Hand[i].cardNumber == discardPile[0].cardNumber){
-							tempCard = player.playerHand.Hand[2];
-							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							System.out.println("Your cards:");
-							player.playerHand.DisplayHand();
+							//remove card from hand
 						}
 						
-						else if(player.playerHand.Hand[i].cardNumber == player.playerHand.Hand[3].cardNumber){
-							tempCard = player.playerHand.Hand[3];
-							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
-
-							System.out.println("Your cards:");
-							player.playerHand.DisplayHand();
-						}
-
-						else if(player.playerHand.Hand[i].cardNumber == player.playerHand.Hand[4].cardNumber){
-							tempCard = player.playerHand.Hand[4];
-							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
-
-							System.out.println("Your cards:");
-							player.playerHand.DisplayHand();
-						}*/
 					}
 				
 				
@@ -141,23 +111,24 @@ public class Crazy8s {
 			}
 
 			//if matching card suit
-			else if(discardPile[0].cardSuit == player.playerHand.Hand[0].cardSuit || discardPile[0].cardSuit == player.playerHand.Hand[1].cardSuit || discardPile[0].cardSuit == player.playerHand.Hand[2].cardSuit || discardPile[0].cardSuit == player.playerHand.Hand[3].cardSuit || discardPile[0].cardSuit == player.playerHand.Hand[4].cardSuit)
+			else if(discardPile[0].cardSuit.equals(player.playerHand.Hand[0].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[1].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[2].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[3].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[4].cardSuit))
 			{
 
-				System.out.println("You have a matching card!");
-				System.out.println("Discarding matching card now...");
+				System.out.println("\nYou have a matching card!");
+				System.out.println("Discarding matching card now...\n");
 
 				//discard card...
 				for(int i = 0; i<player.playerHand.Hand.length; i++)
 					{
-						if(player.playerHand.Hand[i].cardNumber == discardPile[0].cardNumber){
+						if(player.playerHand.Hand[i].cardSuit.equals(discardPile[0].cardSuit)){
 							tempCard = player.playerHand.Hand[i];
-							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
+							tossCard(player.playerHand.Hand[i].cardSuit, tempCard);
 
+							player.playerHand.Hand[i].cardNumber = 0;
+							player.playerHand.Hand[i].cardSuit = "";
+							
 							//remove card from hand
 
-							//System.out.println("\nYour cards:");
-							//player.playerHand.DisplayHand();
 						}
 					}
 					replaceCard();
@@ -166,9 +137,13 @@ public class Crazy8s {
 			//If player has an 8 in pile (optional to use)
 			if(player.playerHand.Hand[0].cardNumber == 8 || player.playerHand.Hand[1].cardNumber == 8 || player.playerHand.Hand[2].cardNumber == 8 || player.playerHand.Hand[3].cardNumber == 8 || player.playerHand.Hand[4].cardNumber == 8)
 			{
+				System.out.println("\nYour cards:");
+				player.playerHand.DisplayHand();
+				System.out.println("");
 				System.out.println("You have an 8 in your hand!");
 				System.out.println("Would you like to discard it?");
-				System.out.println("Type 1 for YES, or 2 for NO: ");
+				System.out.println("Type 1 for YES, or 2 for NO: \n");
+
 				decision = input.nextInt();
 
 				//tosses an 8
@@ -181,8 +156,11 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							//System.out.println("Your cards:");
-							//player.playerHand.DisplayHand();
+							player.playerHand.Hand[i].cardNumber = 0;
+							player.playerHand.Hand[i].cardSuit = "";
+
+							//remove card
+
 						}
 					}
 
@@ -198,7 +176,7 @@ public class Crazy8s {
 
 				else
 				{
-					System.out.println("Discarding 8 card...");
+					System.out.println("\nDiscarding 8 card...");
 
 					//discard 8
 					for(int i = 0; i<player.playerHand.Hand.length; i++)
@@ -207,8 +185,11 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							//System.out.println("Your cards:");
-							//player.playerHand.DisplayHand();
+							player.playerHand.Hand[i].cardNumber = 0;
+							player.playerHand.Hand[i].cardSuit = "";
+
+							//remove card
+
 						}
 					}
 
@@ -228,7 +209,7 @@ public class Crazy8s {
 			{
 				//player.playerHand.DisplayHand();
 
-				System.out.println("Congrats! You won the game!");
+				System.out.println("\nCongrats! You won the game!");
 
 				roundCounter = 0;
 
@@ -267,7 +248,7 @@ public class Crazy8s {
 			//Update the Global currentDeckCard
 			this.currentDeckCard = currentDeckCard;
 
-			System.out.println("Your cards:");
+			System.out.println("\nYour cards:");
 			Hand.DisplayHand();
 
 		}
@@ -280,7 +261,7 @@ public class Crazy8s {
 			Hand.DisplayHand();
 			System.out.println("");
 
-			System.out.println("\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit);
+			System.out.println("\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
 			
 			//Obtain the Card to be Tossed from Player
 			System.out.println("\nWhich Card Would You Like to Toss? (Pick a Number Between 1-5)");
@@ -291,13 +272,15 @@ public class Crazy8s {
 			currentDeckCard++;
 
 			//Adds new card to discard pile
-			for(int i = 0; i<player.playerHand.Hand.length; i++)
+			/*for(int i = 0; i<player.playerHand.Hand.length; i++)
 				{
 					if(player.playerHand.Hand[i].cardNumber == tossCardID){
 						tempCard = player.playerHand.Hand[i];
 						tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 					}
 				}
+			*/
+
 			//Updating the Global currentDeckCard
 			this.currentDeckCard = currentDeckCard;
 		}
@@ -318,6 +301,14 @@ public class Crazy8s {
 		discardPile[index] = card;
 		System.out.println("\tCurrent top card is " + discardPile[index].cardNumber + " of " + discardPile[index].cardSuit);
 	}
+
+	public void tossCard(String cardPlayed, Card card) //creates a pile of cards so we can keep track of the current card at the top
+	{
+		int index = 0;
+		discardPile[index] = card;
+		System.out.println("\tCurrent top card is " + discardPile[index].cardNumber + " of " + discardPile[index].cardSuit);
+	}
+
 
 	public void removeCard(Player playerHand, Card card){
 		//remove card
