@@ -65,6 +65,7 @@ public class Crazy8s {
                 start = false;
             }
 		}*/
+		
 		int decision;
 		Card tempCard;
 		Scanner input = new Scanner(System.in);
@@ -75,13 +76,15 @@ public class Crazy8s {
 				System.out.println("Game Start!\n");
 				newGame = false;
 				//Deal 4 cards from top of Deck
-				//DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
-				//discardPile[0] = deck.Deck[currentDeckCard];
-				RiggedHand();
-				Card c2 = new Card(deck.cardNumbers[0], deck.cardSuits[0]);
+				DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
+				discardPile[0] = deck.Deck[currentDeckCard];
+
+				//RiggedHand();
+				//Card c2 = new Card(deck.cardNumbers[0], deck.cardSuits[0]);
 				player.playerHand.DisplayHand();
 
-				discardPile[0] = c2;
+				//discardPile[0] = c2;
+
 				System.out.println("\n\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
 				//Starting the n+1 Round (Recursion)
 				startGame();
@@ -101,11 +104,11 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							player.playerHand.Hand[i].cardNumber = 1;
-							player.playerHand.Hand[i].cardSuit = "Hearts";
+							//player.playerHand.Hand[i].cardNumber = 1;
+							//player.playerHand.Hand[i].cardSuit = "Hearts";
 							
 
-							//remove card from hand
+							player = removeCard(player, player.playerHand.Hand[i].cardNumber);
 						}
 						
 					}
@@ -129,11 +132,11 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							player.playerHand.Hand[i].cardNumber = 1;
-							player.playerHand.Hand[i].cardSuit = "Hearts";
+							//player.playerHand.Hand[i].cardNumber = 1;
+							//player.playerHand.Hand[i].cardSuit = "Hearts";
 							
 							//remove card from hand
-
+							player = removeCard(player, player.playerHand.Hand[i].cardNumber);
 						}
 					}
 					replaceCard();
@@ -161,11 +164,11 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							player.playerHand.Hand[i].cardNumber = 1;
-							player.playerHand.Hand[i].cardSuit = "Hearts";
+							//player.playerHand.Hand[i].cardNumber = 1;
+							//player.playerHand.Hand[i].cardSuit = "Hearts";
 
 							//remove card
-
+							player = removeCard(player, player.playerHand.Hand[i].cardNumber);
 						}
 					}
 
@@ -190,11 +193,11 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							player.playerHand.Hand[i].cardNumber = 1;
-							player.playerHand.Hand[i].cardSuit = "Hearts";
+							//player.playerHand.Hand[i].cardNumber = 1;
+							//player.playerHand.Hand[i].cardSuit = "Hearts";
 
 							//remove card
-
+							player = removeCard(player, player.playerHand.Hand[i].cardNumber);
 						}
 					}
 
@@ -315,9 +318,28 @@ public class Crazy8s {
 	}
 
 
-	public void removeCard(Player playerHand, Card card){
+	public Player removeCard(Player player, int cardPlayed){
 		//remove card
+		int length = player.playerHand.Hand.length;
 		
+		Player tempHand = new Player(length - 1);
+		
+		for(int i = 0, j = 0; i < length; i++)
+		{
+			if(i == cardPlayed)
+				continue;
+			else 
+			{
+				tempHand.playerHand.Hand[j] = player.playerHand.Hand[i];
+				j++;
+			}
+		}
+		player = new Player(tempHand.playerHand.Hand.length);
+		
+		for(int i = 0; i < tempHand.playerHand.Hand.length; i++)
+			player.playerHand.Hand[i] = tempHand.playerHand.Hand[i];
+		
+		return player;
 	}
 
 	public void RiggedHand()
