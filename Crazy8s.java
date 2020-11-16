@@ -20,11 +20,11 @@ public class Crazy8s {
     int cardsForHand = 5;
     int currentDeckCard = 0;
     int tossCardID;
-    int roundCounter = -2;
+    int roundCounter = -2; //is this used?
     boolean winner;
     boolean newGame = true;
 
-    Crazy8s(){
+    Crazy8s() {
 		
 		//Needed objects
 		discardPile = new Card[52];
@@ -69,78 +69,138 @@ public class Crazy8s {
 		int decision;
 		Card tempCard;
 		Scanner input = new Scanner(System.in);
+	
 			
 			//First Round
+		
+
 			if(newGame == true & player.playerHand.Hand[0]==null & player.playerHand.Hand[1]==null & player.playerHand.Hand[2]==null & player.playerHand.Hand[3]==null & player.playerHand.Hand[4]==null)
 			{
+
 				System.out.println("Game Start!\n");
 				newGame = false;
-				//Deal 4 cards from top of Deck
+
+				//Deal 5 cards from top of Deck to populate hand
 				DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
+
 				discardPile[0] = deck.Deck[currentDeckCard];
 
 				//RiggedHand();
 				//Card c2 = new Card(deck.cardNumbers[0], deck.cardSuits[0]);
-				player.playerHand.DisplayHand();
+
+				//player.playerHand.DisplayHand();
 
 				//discardPile[0] = c2;
 
 				System.out.println("\n\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
-				//Starting the n+1 Round (Recursion)
+
+				//Starting the next round
+				
 				startGame();
+	
+			
 			}
 
 			//If player has matching number card
-			else if(discardPile[0].cardNumber == player.playerHand.Hand[0].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[1].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[2].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[3].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[4].cardNumber)
+			if(discardPile[0].cardNumber == player.playerHand.Hand[0].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[1].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[2].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[3].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[4].cardNumber))
 			{
 
-				System.out.println("\nYou have a matching card!");
-				System.out.println("Discarding matching card now...\n");
+				System.out.println("\nYou have a matching card number!");
 
-				//discard card...
-				for(int i = 0; i<player.playerHand.Hand.length; i++)
-					{
-						if(player.playerHand.Hand[i].cardNumber == discardPile[0].cardNumber){
-							tempCard = player.playerHand.Hand[i];
-							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
+				System.out.println("Would you like to discard it?");
+				System.out.println("Type 1 for YES, or 2 for NO: \n");
 
-							//player.playerHand.Hand[i].cardNumber = 1;
-							//player.playerHand.Hand[i].cardSuit = "Hearts";
+				decision = input.nextInt();
+				
+
+				if(decision==1){
+
+					System.out.println("Discarding matching card now...\n");
+
+					//discard card...
+					for(int i = 0; i<player.playerHand.Hand.length; i++)
+						{
+							if(player.playerHand.Hand[i].cardNumber == discardPile[0].cardNumber){
+								
+								tempCard = player.playerHand.Hand[i];
+								tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
+
+								player = removeCards(player, i);
+
+								System.out.println("\nYour cards: after removing");
+								player.playerHand.DisplayHand();
+								break;
+	
+							}
 							
-
-							player = removeCard(player, player.playerHand.Hand[i].cardNumber);
 						}
-						
-					}
-				
-				
-				replaceCard();
+					
+					System.out.println("\nbefore replacing card num\n");
+					
+					System.out.println("\nafter replacing card num\n");
+				}
 
+				//Add new card 
+				if(decision == 2){
+					System.out.println("\nAdd new card cuz no match num\n");
+					//need to add here...
+					//replaceCard();
+					player = addCard(this.currentDeckCard,this.deck, this.player);
+
+					System.out.println("\nYour cards: after adding");
+					player.playerHand.DisplayHand();
+					startGame();
+				}
 			}
 
 			//if matching card suit
 			else if(discardPile[0].cardSuit.equals(player.playerHand.Hand[0].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[1].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[2].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[3].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[4].cardSuit))
 			{
 
-				System.out.println("\nYou have a matching card!");
-				System.out.println("Discarding matching card now...\n");
+				System.out.println("\nYou have a matching card suit!");
 
-				//discard card...
-				for(int i = 0; i<player.playerHand.Hand.length; i++)
-					{
-						if(player.playerHand.Hand[i].cardSuit.equals(discardPile[0].cardSuit)){
-							tempCard = player.playerHand.Hand[i];
-							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
+				System.out.println("Would you like to discard it?");
+				System.out.println("Type 1 for YES, or 2 for NO: \n");
 
-							//player.playerHand.Hand[i].cardNumber = 1;
-							//player.playerHand.Hand[i].cardSuit = "Hearts";
-							
-							//remove card from hand
-							player = removeCard(player, player.playerHand.Hand[i].cardNumber);
+				decision = input.nextInt();
+
+				if(decision==1){
+
+
+					System.out.println("Discarding matching card now...\n");
+
+					//discard card...
+					for(int i = 0; i<player.playerHand.Hand.length; i++)
+						{
+							if(player.playerHand.Hand[i].cardSuit.equals(discardPile[0].cardSuit)){
+								tempCard = player.playerHand.Hand[i];
+								tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
+
+								player = removeCards(player, i);
+
+								System.out.println("\nYour cards:");
+								player.playerHand.DisplayHand();
+
+								break;
+
+							}
 						}
+		
 					}
-					replaceCard();
+				
+				//add new card
+				if(decision == 2)
+				{
+					System.out.println("\nAdd new card cuz no match suit\n");
+				
+					player = addCard(this.currentDeckCard,this.deck, this.player);
+
+					System.out.println("\nYour cards: after adding");
+					player.playerHand.DisplayHand();
+
+					startGame();
 				}
+			}
 
 			//If player has an 8 in pile (optional to use)
 			if(player.playerHand.Hand[0].cardNumber == 8 || player.playerHand.Hand[1].cardNumber == 8 || player.playerHand.Hand[2].cardNumber == 8 || player.playerHand.Hand[3].cardNumber == 8 || player.playerHand.Hand[4].cardNumber == 8)
@@ -157,6 +217,9 @@ public class Crazy8s {
 				//tosses an 8
 				if(decision == 1)
 				{
+
+					System.out.println("Discarding matching card now...\n");
+
 					//discard 8
 					for(int i = 0; i<player.playerHand.Hand.length; i++)
 					{
@@ -164,64 +227,57 @@ public class Crazy8s {
 							tempCard = player.playerHand.Hand[i];
 							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
 
-							//player.playerHand.Hand[i].cardNumber = 1;
-							//player.playerHand.Hand[i].cardSuit = "Hearts";
+							player = removeCards(player, i);
 
-							//remove card
-							player = removeCard(player, player.playerHand.Hand[i].cardNumber);
+							System.out.println("\nYour cards:");
+							player.playerHand.DisplayHand();
+							break;
+
 						}
 					}
 
-					replaceCard();
+					
 				}
 
-				//tosses another card
+				//Add new card
 				if(decision == 2)
 				{
-					replaceCard();
+					System.out.println("\nreplace new card cuz no 8\n");
+					//need to add here...
+					//replaceCard();
+					player = addCard(this.currentDeckCard,this.deck, this.player);
+
+					System.out.println("\nYour cards: after adding");
+					player.playerHand.DisplayHand();
 					startGame();
 				}
 
-				else
-				{
-					System.out.println("\nDiscarding 8 card...");
-
-					//discard 8
-					for(int i = 0; i<player.playerHand.Hand.length; i++)
-					{
-						if(player.playerHand.Hand[i].cardNumber == 8){
-							tempCard = player.playerHand.Hand[i];
-							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
-
-							//player.playerHand.Hand[i].cardNumber = 1;
-							//player.playerHand.Hand[i].cardSuit = "Hearts";
-
-							//remove card
-							player = removeCard(player, player.playerHand.Hand[i].cardNumber);
-						}
-					}
-
-					replaceCard();
-				}
+				
 			}
 
 			//If player does not have matching cards or 8
 			if(currentDeckCard!=deck.Deck.length)
 			{
 				System.out.println("You do not have any matching cards!\n");
-				replaceCard();
+				//Add new card....
+				player = addCard(this.currentDeckCard,this.deck, this.player);
+
+				System.out.println("\nYour cards: after adding");
+				player.playerHand.DisplayHand();
+				
 			}
 			
 			//Win condition
 			if(newGame == false & player.playerHand.Hand[0]==null & player.playerHand.Hand[1]==null & player.playerHand.Hand[2]==null & player.playerHand.Hand[3]==null & player.playerHand.Hand[4]==null)
 			{
-				//player.playerHand.DisplayHand();
+				
 
 				System.out.println("\nCongrats! You won the game!");
 
 				roundCounter = 0;
 
 				winner = true;
+				break;
 			}
 			
 			//end game
@@ -236,13 +292,15 @@ public class Crazy8s {
 				System.out.println("new Round!\n");
 				startGame();
 			}
-		return winner;
 
+		return winner;
+		
 		
     }
 
 	public void DealCards(int currentDeckCard,DeckofCards Deck, PlayerHand Hand)
 	{
+		Card tempCard1;
 		Card tempCard;
 		//First Round Deal
 		if(player.playerHand.Hand[0]==null & player.playerHand.Hand[1]==null & player.playerHand.Hand[2]==null & player.playerHand.Hand[3]==null &  player.playerHand.Hand[4]==null)
@@ -275,22 +333,22 @@ public class Crazy8s {
 			System.out.println("\nWhich Card Would You Like to Toss? (Pick a Number Between 1-5)");
 			tossCardID = str.nextInt() - 1;
 			
+			//adding tossed card to discard pile
+			tempCard1 = player.playerHand.Hand[tossCardID];
+			tossCard(player.playerHand.Hand[tossCardID].cardNumber, tempCard1);
+
 			//Replacing the Tossed Card
 			Hand.Hand[tossCardID] = Deck.Deck[currentDeckCard];
 			currentDeckCard++;
 
-			//Adds new card to discard pile
-			/*for(int i = 0; i<player.playerHand.Hand.length; i++)
-				{
-					if(player.playerHand.Hand[i].cardNumber == tossCardID){
-						tempCard = player.playerHand.Hand[i];
-						tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
-					}
-				}
-			*/
-
 			//Updating the Global currentDeckCard
 			this.currentDeckCard = currentDeckCard;
+
+			System.out.println("\nYour cards: after toss");
+			Hand.DisplayHand();
+			
+			System.out.println("\ntop card after toss");
+			System.out.println("\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
 		}
 	}
 	
@@ -317,31 +375,58 @@ public class Crazy8s {
 		System.out.println("\tCurrent top card is " + discardPile[index].cardNumber + " of " + discardPile[index].cardSuit);
 	}
 
+	public Player addCard(int currentDeckCard, DeckofCards deck, Player player){
+		
+		Card newCard = deck.Deck[currentDeckCard];
+		currentDeckCard++;
+		this.currentDeckCard = currentDeckCard;
 
-	public Player removeCard(Player player, int cardPlayed){
-		//remove card
 		int length = player.playerHand.Hand.length;
 		
-		Player tempHand = new Player(length - 1);
-		
+		Player tempHand = new Player(length + 1);
+
 		for(int i = 0, j = 0; i < length; i++)
 		{
-			if(i == cardPlayed)
-				continue;
-			else 
-			{
-				tempHand.playerHand.Hand[j] = player.playerHand.Hand[i];
-				j++;
-			}
+		
+			tempHand.playerHand.Hand[j] = player.playerHand.Hand[i];
+			j++;
+
 		}
-		player = new Player(tempHand.playerHand.Hand.length);
-		
-		for(int i = 0; i < tempHand.playerHand.Hand.length; i++)
-			player.playerHand.Hand[i] = tempHand.playerHand.Hand[i];
-		
-		return player;
+
+		tempHand.playerHand.Hand[length+1] = newCard;
+
+		return tempHand;
+
 	}
 
+
+	public Player removeCards(Player player, int cardIndex){
+		int index = cardIndex;
+		System.out.println("Element to be removed at index: " + index);
+
+		if (player.playerHand == null || index < 0 || index >= player.playerHand.Hand.length) { 
+			System.out.println("No removal operation can be performed!!");
+		} 
+
+		Player tempHand = new Player(player.playerHand.Hand.length - 1);
+
+		
+        for (int i = 0, k = 0; i <player.playerHand.Hand.length; i++) { 
+ 
+            
+            if (i == index) { 
+                continue; 
+            } 
+ 
+           
+            tempHand.playerHand.Hand[k++] = player.playerHand.Hand[i]; 
+		} 
+		
+		return tempHand;
+	}
+
+
+/*
 	public void RiggedHand()
 	{
 		for(int i = 0; i < 5; i++)
@@ -350,6 +435,8 @@ public class Crazy8s {
 			player.playerHand.Hand[i] = c1;
 		}
 	}
+*/
+
 
 	public static void main(String[] args){
 
