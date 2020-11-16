@@ -430,12 +430,207 @@ public class Crazy8s {
 */
 
 
-	public static void main(String[] args){
+public int checkSize(Player player){
+
+	int i = 0;
+
+	for(i = 0; i<=10; i++){
+		if(player.playerHand.Hand.length == i){
+			return i;
+		}
+	}
+
+	return i;
+
+}
+
+public void matchSuit(){
+	Card tempCard;
+	int decision = 0;
+	Scanner input = new Scanner(System.in);
+
+	System.out.println("\nYou have a matching card suit!");
+
+	System.out.println("Would you like to discard it?");
+	System.out.println("Type 1 for YES, or 2 for NO: \n");
+
+	decision = input.nextInt();
+
+	if (decision == 1) {
+
+		System.out.println("Discarding matching card now...\n");
+
+		// discard card...
+		for (int i = 0; i < player.playerHand.Hand.length; i++) {
+			if (player.playerHand.Hand[i].cardSuit.equals(discardPile[0].cardSuit)) {
+				tempCard = player.playerHand.Hand[i];
+				tossCard(tempCard);
+
+				player = removeCards(player, i);
+
+				System.out.println("\nYour cards:");
+				player.playerHand.DisplayHand();
+
+				break;
+
+			}
+		}
+
+	}
+
+	// add new card
+	if (decision == 2) {
+		System.out.println("\nAdd new card cuz no match suit\n");
+
+		player = addCard(this.currentDeckCard, this.deck, this.player);
+
+		System.out.println("\nYour cards: after adding");
+		player.playerHand.DisplayHand();
+
+		startGame();
+	}
+	input.close();
+}
+
+public void matchNum(int size, Player player){
+	int decision;
+	Card tempCard;
+	Scanner input = new Scanner(System.in);
+
+	System.out.println("\nYou have a matching card number!");
+
+	System.out.println("Would you like to discard it?");
+	System.out.println("Type 1 for YES, or 2 for NO: \n");
+
+	decision = input.nextInt();
+
+	if (decision == 1) {
+
+		System.out.println("Discarding matching card now...\n");
+
+		// discard card...
+		for (int i = 0; i < player.playerHand.Hand.length; i++) {
+			if (player.playerHand.Hand[i].cardNumber == discardPile[0].cardNumber) {
+
+				tempCard = player.playerHand.Hand[i];
+				tossCard(tempCard);
+
+				player = removeCards(player, i);
+
+				System.out.println("\nYour cards: after removing");
+				player.playerHand.DisplayHand();
+				break;
+
+			}
+
+		}
+
+		System.out.println("\nbefore replacing card num\n");
+
+		System.out.println("\nafter replacing card num\n");
+	}
+
+	// Add new card
+	if (decision == 2) {
+		System.out.println("\nAdd new card cuz no match num\n");
+		// need to add here...
+		// replaceCard();
+		player = addCard(this.currentDeckCard, this.deck, this.player);
+
+		System.out.println("\nYour cards: after adding");
+		player.playerHand.DisplayHand();
+		startGame();
+	}
+
+	input.close();
+}
+
+public void match8(int size, Player player){
+	int decision;
+	Card tempCard;
+	Scanner input = new Scanner(System.in);
+
+	System.out.println("\nYour cards:");
+	player.playerHand.DisplayHand();
+	System.out.println("");
+	System.out.println("You have an 8 in your hand!");
+	System.out.println("Would you like to discard it?");
+	System.out.println("Type 1 for YES, or 2 for NO: \n");
+
+	decision = input.nextInt();
+
+	//tosses an 8
+	if(decision == 1)
+				{
+
+		System.out.println("Discarding matching card now...\n");
+
+		//discard 8
+		for(int i = 0; i<player.playerHand.Hand.length; i++)
+			{
+				if(player.playerHand.Hand[i].cardNumber == 8){
+					tempCard = player.playerHand.Hand[i];
+					tossCard(tempCard);
+
+					player = removeCards(player, i);
+
+					System.out.println("\nYour cards:");
+					player.playerHand.DisplayHand();
+					break;
+
+				}
+			}
+	
+	}
+
+	//Add new card
+	if(decision == 2)
+	{
+		System.out.println("\nreplace new card cuz no 8\n");
+		//need to add here...
+		//replaceCard();
+		player = addCard(this.currentDeckCard,this.deck, this.player);
+
+		System.out.println("\nYour cards: after adding");
+		player.playerHand.DisplayHand();
+		startGame();
+	}
+	input.close();
+}
+
+public void firstemptyHand(){
+
+	System.out.println("Game Start!\n");
+	newGame = false;
+
+	//Deal 5 cards from top of Deck to populate hand
+	DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
+
+	discardPile[0] = deck.Deck[currentDeckCard];
+
+	System.out.println("\n\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
+
+	//Starting the next round
+				
+	startGame();
+}
+
+public void emptyHandWin(){
+
+	System.out.println("\nCongrats! You won the game!");
+
+	roundCounter = 0;
+
+	winner = true;
+}
+
+
+	public static void main(String[] args) throws Exception {
 
 		//Needed variables
 		boolean start = true;
 		int decision;
-		Crazy8s crazy8s = new Crazy8s();
+		Crazy8s crazy8s;
 		Scanner input = new Scanner(System.in);
 
 		System.out.println("");
