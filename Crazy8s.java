@@ -72,10 +72,10 @@ public class Crazy8s {
 	
 			
 			//First Round
-		
+		if(checkSize(player) == 0 & newGame ==true){
 
-			if(newGame == true & player.playerHand.Hand[0]==null & player.playerHand.Hand[1]==null & player.playerHand.Hand[2]==null & player.playerHand.Hand[3]==null & player.playerHand.Hand[4]==null)
-			{
+			/*if(newGame == true & player.playerHand.Hand[0]==null & player.playerHand.Hand[1]==null & player.playerHand.Hand[2]==null & player.playerHand.Hand[3]==null & player.playerHand.Hand[4]==null)
+			{*/
 
 				System.out.println("Game Start!\n");
 				newGame = false;
@@ -99,8 +99,8 @@ public class Crazy8s {
 				startGame();
 	
 			
-			}
-
+			//}
+		}
 			//If player has matching number card
 			if(discardPile[0].cardNumber == player.playerHand.Hand[0].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[1].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[2].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[3].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[4].cardNumber)
 			{
@@ -268,7 +268,7 @@ public class Crazy8s {
 			}
 			
 			//Win condition
-			if(newGame == false & player.playerHand.Hand[0]==null & player.playerHand.Hand[1]==null & player.playerHand.Hand[2]==null & player.playerHand.Hand[3]==null & player.playerHand.Hand[4]==null)
+			if(newGame == false & checkSize(player) == 0)
 			{
 				
 
@@ -492,7 +492,7 @@ public void matchSuit(){
 	input.close();
 }
 
-public void matchNum(int size, Player player){
+public void matchNum(){
 	int decision;
 	Card tempCard;
 	Scanner input = new Scanner(System.in);
@@ -545,7 +545,7 @@ public void matchNum(int size, Player player){
 	input.close();
 }
 
-public void match8(int size, Player player){
+public void match8(){
 	int decision;
 	Card tempCard;
 	Scanner input = new Scanner(System.in);
