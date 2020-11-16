@@ -24,7 +24,7 @@ public class Crazy8s {
     boolean winner;
     boolean newGame = true;
 
-    Crazy8s() {
+    Crazy8s() throws Exception {
 		
 		//Needed objects
 		discardPile = new Card[52];
@@ -102,7 +102,7 @@ public class Crazy8s {
 			}
 
 			//If player has matching number card
-			if(discardPile[0].cardNumber == player.playerHand.Hand[0].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[1].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[2].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[3].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[4].cardNumber))
+			if(discardPile[0].cardNumber == player.playerHand.Hand[0].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[1].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[2].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[3].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[4].cardNumber)
 			{
 
 				System.out.println("\nYou have a matching card number!");
@@ -123,7 +123,7 @@ public class Crazy8s {
 							if(player.playerHand.Hand[i].cardNumber == discardPile[0].cardNumber){
 								
 								tempCard = player.playerHand.Hand[i];
-								tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
+								tossCard(tempCard);
 
 								player = removeCards(player, i);
 
@@ -174,7 +174,7 @@ public class Crazy8s {
 						{
 							if(player.playerHand.Hand[i].cardSuit.equals(discardPile[0].cardSuit)){
 								tempCard = player.playerHand.Hand[i];
-								tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
+								tossCard(tempCard);
 
 								player = removeCards(player, i);
 
@@ -225,7 +225,7 @@ public class Crazy8s {
 					{
 						if(player.playerHand.Hand[i].cardNumber == 8){
 							tempCard = player.playerHand.Hand[i];
-							tossCard(player.playerHand.Hand[i].cardNumber, tempCard);
+							tossCard(tempCard);
 
 							player = removeCards(player, i);
 
@@ -277,7 +277,6 @@ public class Crazy8s {
 				roundCounter = 0;
 
 				winner = true;
-				break;
 			}
 			
 			//end game
@@ -301,7 +300,7 @@ public class Crazy8s {
 	public void DealCards(int currentDeckCard,DeckofCards Deck, PlayerHand Hand)
 	{
 		Card tempCard1;
-		Card tempCard;
+		
 		//First Round Deal
 		if(player.playerHand.Hand[0]==null & player.playerHand.Hand[1]==null & player.playerHand.Hand[2]==null & player.playerHand.Hand[3]==null &  player.playerHand.Hand[4]==null)
 		{
@@ -335,7 +334,7 @@ public class Crazy8s {
 			
 			//adding tossed card to discard pile
 			tempCard1 = player.playerHand.Hand[tossCardID];
-			tossCard(player.playerHand.Hand[tossCardID].cardNumber, tempCard1);
+			tossCard(tempCard1);
 
 			//Replacing the Tossed Card
 			Hand.Hand[tossCardID] = Deck.Deck[currentDeckCard];
@@ -361,14 +360,7 @@ public class Crazy8s {
 		startGame();
 	}
 
-	public void tossCard(int cardPlayed, Card card) //creates a pile of cards so we can keep track of the current card at the top
-	{
-		int index = 0;
-		discardPile[index] = card;
-		System.out.println("\tCurrent top card is " + discardPile[index].cardNumber + " of " + discardPile[index].cardSuit);
-	}
-
-	public void tossCard(String cardPlayed, Card card) //creates a pile of cards so we can keep track of the current card at the top
+	public void tossCard(Card card) //creates a pile of cards so we can keep track of the current card at the top
 	{
 		int index = 0;
 		discardPile[index] = card;
