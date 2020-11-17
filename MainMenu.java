@@ -18,16 +18,15 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class MainMenu extends Application {
+public class MainMenu extends Application 
+{
 	
 	//Button Objects
 	Button SpoonsBTN, Crazy8sBTN, PokerBTN, PresidentBTN, ExitBTN;
 	
 	//Image Objects
-	ImageView[] imageViewArray;
 	InputStream stream;
 	Image image;
-	ImageView IV = new ImageView();
 	ImageView IV1 = new ImageView();
 	ImageView IV2 = new ImageView();
 	ImageView IV3 = new ImageView();
@@ -45,9 +44,9 @@ public class MainMenu extends Application {
 	Font TitleFont;
 	
 	//Game Objects
-	Spoons Spoons; Poker Poker; Crazy8s Crazy8s; President President;
+	//Spoons Spoons; Poker Poker; Crazy8s Crazy8s; President President;
 	
-	//Helper Objects
+	//Deck Object For Display
 	DeckofCards DoC;
 	DeckofCards deck;
 	
@@ -55,6 +54,12 @@ public class MainMenu extends Application {
 	Scene menuScene;
 	Pane root;
 	
+	/*
+	 * Name: Start Function
+	 * Type: Void
+	 * Description: This function creates the primaryStage object
+	 * 				and sets the menuScene to display 
+	 * */
 	@Override
 	public void start(Stage primaryStage) 
 	{
@@ -70,35 +75,13 @@ public class MainMenu extends Application {
 		}
 	}
 	
-//	public void HandDisplay() throws Exception
-//	{
-//		imageViewArray = new ImageView[99];
-//		deck = new DeckofCards();
-//		
-//		//Loop for Each Card in Hand
-//		for(int i = 0; i < deck.Deck.length; i++)
-//		{
-//			IV.setImage(deck.Deck[i].cardFront);
-//			IV.setFitWidth(100);
-//			IV.setFitHeight(150);
-//			IV.setPreserveRatio(true);
-//			
-//			IV.setX(xBase);
-//			IV.setY(yBase);
-//			
-//			xBase+=5;
-//			
-//			imageViewArray[i] = IV;
-//			
-//			System.out.println(deck.Deck[i].cardNumber+deck.Deck[i].cardSuit);
-//			
-//		}
-//		for(int i = 0;i<imageViewArray.length;i++) 
-//		{
-//			root.getChildren().add(imageViewArray[i]);
-//		}
-//	}
-	
+	/*
+	 * Name: Image Display Function
+	 * Type: Void
+	 * Description: This function creates a DeckofCards object then takes four 
+	 * 				random cards and creates a ImageView objects to hold the card images
+	 * 				then displays them in the corners of the screen
+	 * */
 	public void ImageDisplay() throws Exception
 	{
 		DoC = new DeckofCards();
@@ -160,7 +143,12 @@ public class MainMenu extends Application {
 		}
 	}
 	
-	
+	/*
+	 * Name: Label Creator Function
+	 * Type: Void
+	 * Description: This function creates a label object, set the size, color, 
+	 * 				position of the label
+	 * */
 	public void LabelCreator()
 	{
 		//Initializing the Label
@@ -179,7 +167,12 @@ public class MainMenu extends Application {
 		TitleLabel.setTranslateY(60);
 	}
 	
-	
+	/*
+	 * Name: Button Creator Function
+	 * Type: Void
+	 * Description: This function creates button objects, sets the size, color, 
+	 * 				position, and actions of the buttons
+	 * */
 	public void ButtonCreator() throws Exception
 	{
 		//Initializing the Buttons
@@ -189,7 +182,7 @@ public class MainMenu extends Application {
 		PresidentBTN = new Button("President");
 		ExitBTN = new Button("Exit ");
 		
-		//
+		//Setting the Button Colors
 		SpoonsBTN.styleProperty().set("-fx-background-color: #7DA2A9");
 		Crazy8sBTN.styleProperty().set("-fx-background-color: #7DA2A9");
 		PresidentBTN.styleProperty().set("-fx-background-color: #7DA2A9");
@@ -219,57 +212,72 @@ public class MainMenu extends Application {
 		ExitBTN.setLayoutX(250);
 		ExitBTN.setLayoutY(350);
 
-		
-		//Adding Actions
+		//Adding Actions to the Crazy8s Button
 		Crazy8sBTN.setOnAction(e -> 
 		{
 			try 
 			{
-				Crazy8s = new Crazy8s();
+				//Start Crazy8s Game and Make the GUI Appear
+				//Crazy8s = new Crazy8s();
 			} 
 			catch (Exception e1) 
 			{}
 		});
 		
+		//Adding Actions to the Poker Button
 		PokerBTN.setOnAction(e -> 
 		{
 			try 
 			{
-				Poker = new Poker();
+				//Start Poker Game and Make the GUI Appear
+				//Poker = new Poker();
+				//Poker.startGame();
 			} 
 			catch (Exception e1) 
 			{}
-			Poker.startGame();
 		});
 		
+		//Adding Actions to the President Button
 		PresidentBTN.setOnAction(e -> 
 		{
 			try 
 			{
-				President = new President();
+				//Start President Game and Make the GUI Appear
+				//President = new President();
 			} 
 			catch (Exception e1) 
 			{}
 		});
 		
+		//Adding Actions to the Spoons Button
 		SpoonsBTN.setOnAction(e -> 
 		{
 			try 
 			{
-				Spoons = new Spoons();
-				Spoons.Start();
+				//Start Spoons Game and Make the GUI Appear
+				//Spoons = new Spoons();
+				//Spoons.Start();
 			} 
 			catch (Exception e1) 
 			{}
 			
 		});
 		
+		//Adding Actions to the Exit Button
 		ExitBTN.setOnAction(e -> 
 		{
+			//Shutting Down the Program
 			System.exit(0);
 		});
 	}
 	
+	/*
+	 * Name: Scene Creator Function
+	 * Type: Void
+	 * Description: Runs functions to create components then initializes 
+	 * 				a pane and adds the "Children" to it then sets that pane
+	 * 				to the menuScene variable
+	 * */
 	public void SceneCreator() throws Exception
 	{
 		//Creating Components
@@ -280,17 +288,21 @@ public class MainMenu extends Application {
 		//Setting Up Layout
 		root = new Pane();
 		
-		//HandDisplay();
-		
-		//
+		//Adding all the "Children" components 
 		root.getChildren().addAll(Crazy8sBTN,PokerBTN,PresidentBTN,SpoonsBTN,ExitBTN, TitleLabel, IV1, IV2, IV3, IV4);
 		
+		//Setting Color
 		root.styleProperty().set("-fx-background-color: #18181E");
 		
-		menuScene = new Scene(root,600,600);
-			
+		//Creating the menuScene size 600x600
+		menuScene = new Scene(root,600,600);	
 	}
 	
+	/*
+	 * Name: Main Function
+	 * Type: Void
+	 * Description: N/A
+	 * */
 	public static void main(String[] args) 
 	{
 		launch(args);

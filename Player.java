@@ -1,5 +1,6 @@
 
-public class Player {
+public class Player 
+{
 
 	//Needed Objects
 	PlayerHand playerHand;
@@ -7,6 +8,11 @@ public class Player {
 	//Needed Variables
 	String userName;
 	
+	/*
+	 * Name: Player Constructor
+	 * Type: Void
+	 * Description: Creates Player Hand Object
+	 * */
 	Player(int cardsForHand)
 	{
 		playerHand = new PlayerHand(cardsForHand);
