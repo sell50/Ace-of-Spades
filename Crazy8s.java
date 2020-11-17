@@ -8,7 +8,7 @@ import java.util.Scanner;
 *Lose: Last player with any cards
 */
 
-public class Crazy8sCopy{
+public class Crazy8s{
     
     //Needed Objects
     DeckofCards deck;
@@ -24,7 +24,7 @@ public class Crazy8sCopy{
     boolean winner = false;
     boolean newGame = true;
 
-    Crazy8sCopy() throws Exception {
+    Crazy8s() throws Exception {
 		
 		//Needed objects
 		discardPile = new Card[52];
@@ -35,13 +35,13 @@ public class Crazy8sCopy{
 		
     }
 
-    public boolean startGame(){
+    public boolean startGame() throws Exception {
 
-			/*//Needed variables
+			//Needed variables
 		
 			boolean start = true;
 			int decision;
-			Crazy8sCopy crazy8s;
+			Crazy8s crazy8s;
 			Scanner input = new Scanner(System.in);
 	
 			
@@ -57,7 +57,7 @@ public class Crazy8sCopy{
 				
 				//Start game
 				if(decision == 1){
-					crazy8s = new Crazy8sCopy(); 
+					crazy8s = new Crazy8s();
 					start = crazy8s.startGame();
 				}
 					
@@ -74,42 +74,11 @@ public class Crazy8sCopy{
 	
 			
 	
-		}*/
-		//REAL ONE^^^
-		///////////////////////////////////////////////////////////
-		
 
-		//Needed variables
-		/*boolean start = true;
-		int decision;
-		Crazy8s crazy8s = new Crazy8s();
-		Scanner input = new Scanner(System.in);
 
-		System.out.println("");
-		
-		while(start == true){
-			
-			//Prompt to start game
-			System.out.println("");
-			System.out.println("Welcome to Crazy8s!");
-			System.out.println("Ready to start Crazy8s?");
-			System.out.println("Type 1 for YES, or 2 for NO: ");
-			decision = input.nextInt();
-            System.out.println("");
-            
-			//Start game
-			if(decision == 1){
-				crazy8s = new Crazy8s(); //help???
-				start = crazy8s.startGame();
-            }
-                
-            else{
-                start = false;
-            }
-		}*/
 		
 	int rounds = 0;
-	if(newGame){
+	if(newGame==true){
 		System.out.println("\nGame Start!\n");
 		newGame = false;
 
@@ -177,7 +146,9 @@ public class Crazy8sCopy{
 	}
 
 	if(winner == false){
+		System.out.println("\nOh No!");
 		System.out.println("\nAI Won!");
+		System.out.println("\nYou lose!");
 
 	}
 
@@ -303,7 +274,7 @@ public int checkSize(Player player){
 
 }
 
-public void matchSuit(){
+public void matchSuit() throws Exception {
 	Card tempCard;
 	int decision;
 	Scanner input = new Scanner(System.in);
@@ -354,7 +325,7 @@ public void matchSuit(){
 	
 }
 
-public void matchNum(){
+public void matchNum() throws Exception {
 	int decision;
 	Card tempCard;
 	Scanner input = new Scanner(System.in);
@@ -403,7 +374,7 @@ public void matchNum(){
 	
 }
 
-public void match8(){
+public void match8() throws Exception {
 	int decision;
 	Card tempCard;
 	Scanner input = new Scanner(System.in);
@@ -454,27 +425,6 @@ public void match8(){
 		startGame();
 	}
 	
-}
-
-public void firstemptyHand(){
-
-	System.out.println("Game Start!\n");
-	newGame = false;
-
-	//Deal 5 cards from top of Deck to populate hand
-	DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
-
-	discardPile[0] = deck.Deck[currentDeckCard];
-
-	//System.out.println("Size of hand: " + player.playerHand.Hand.length);
-
-	System.out.println("\n\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
-
-	//Starting the next round
-
-	
-				
-	//startGame();
 }
 
 public boolean emptyHandWin(){
@@ -534,13 +484,13 @@ public boolean checkMatch8(int n, Player player){
 	return false;
 }
 
-	public static void main(String[] args) throws Exception {
+	/*public static void main(String[] args) throws Exception {
 
 		//Needed variables
 		
 		boolean start = true;
 		int decision;
-		Crazy8sCopy crazy8s;
+		Crazy8s crazy8s;
 		Scanner input = new Scanner(System.in);
 
 		
@@ -556,7 +506,7 @@ public boolean checkMatch8(int n, Player player){
             
 			//Start game
 			if(decision == 1){
-				crazy8s = new Crazy8sCopy(); 
+				crazy8s = new Crazy8s();
 				start = crazy8s.startGame();
             }
                 
@@ -573,6 +523,6 @@ public boolean checkMatch8(int n, Player player){
 
 		
 
-	}
+	}*/
     
 }
