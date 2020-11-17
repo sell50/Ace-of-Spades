@@ -132,6 +132,7 @@ public class Crazy8s {
 
 		//may delete this...
 			//If player has matching number card
+			/*
 			if(discardPile[0].cardNumber == player.playerHand.Hand[0].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[1].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[2].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[3].cardNumber || discardPile[0].cardNumber == player.playerHand.Hand[4].cardNumber)
 			{
 
@@ -183,9 +184,10 @@ public class Crazy8s {
 					player.playerHand.DisplayHand();
 					startGame();
 				}*/
-			}
+			//}
 
 			//if matching card suit
+			/*
 			else if(discardPile[0].cardSuit.equals(player.playerHand.Hand[0].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[1].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[2].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[3].cardSuit) || discardPile[0].cardSuit.equals(player.playerHand.Hand[4].cardSuit))
 			{
 
@@ -234,9 +236,11 @@ public class Crazy8s {
 
 					startGame();
 				}*/
-			}
+			//}
 
+			
 			//If player has an 8 in pile (optional to use)
+			/*
 			if(player.playerHand.Hand[0].cardNumber == 8 || player.playerHand.Hand[1].cardNumber == 8 || player.playerHand.Hand[2].cardNumber == 8 || player.playerHand.Hand[3].cardNumber == 8 || player.playerHand.Hand[4].cardNumber == 8)
 			{
 				match8();
@@ -289,8 +293,9 @@ public class Crazy8s {
 				}*/
 
 				
-			}
+			//}*/
 
+			/*
 			//If player does not have matching cards or 8
 			if(currentDeckCard!=deck.Deck.length)
 			{
@@ -301,7 +306,7 @@ public class Crazy8s {
 				System.out.println("\nYour cards: after adding");
 				player.playerHand.DisplayHand();
 				
-			}
+			}*/
 			
 			//Win condition
 			if(!newGame & checkSize(player) == 0)
