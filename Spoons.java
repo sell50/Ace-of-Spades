@@ -59,7 +59,7 @@ public class Spoons {
 				System.out.println("");
 				//Starts round 2
 				if(decision == 1 && games <= 2){
-					f4 = new Spoons();
+					Spoons f4 = new Spoons();
 					win = f4.Rounds();
 				}
 				//Start Final Round... need to activate flag

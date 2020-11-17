@@ -1,5 +1,5 @@
-//import javafx.scene.image.Image;
-import javafx.scene.Image;
+import javafx.scene.image.Image;
+
 
 public class Card 
 {
