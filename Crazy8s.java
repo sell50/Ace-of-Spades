@@ -126,7 +126,7 @@ public class Crazy8s{
 						System.out.println("Adding new card!");
 
 						System.out.println("\nYour cards after adding new card...");
-						player.playerHand.DisplayHand();
+						displayHand();
 
 					}
 
@@ -171,7 +171,7 @@ public class Crazy8s{
 			this.currentDeckCard = currentDeckCard;
 
 			System.out.println("\nYour cards:");
-			Hand.DisplayHand();
+			displayHand();
 
 		}
 		
@@ -180,7 +180,7 @@ public class Crazy8s{
 		{
 			//Display Hand to Player for Choice
 			System.out.println("\nYour cards:");
-			Hand.DisplayHand();
+			displayHand();
 
 
 			System.out.println("\n\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
@@ -201,7 +201,7 @@ public class Crazy8s{
 			this.currentDeckCard = currentDeckCard;
 
 			System.out.println("\nYour cards after removing...");
-			Hand.DisplayHand();
+			displayHand();
 			
 			System.out.println("\ntop card after removing...");
 			System.out.println("\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
@@ -299,7 +299,7 @@ public void matchSuit() throws Exception {
 				
 
 				System.out.println("\nYour cards after removing...");
-				player.playerHand.DisplayHand();
+				displayHand();
 
 				break;
 
@@ -315,7 +315,7 @@ public void matchSuit() throws Exception {
 		player = addCard(this.currentDeckCard, this.deck, this.player);
 
 		System.out.println("\nYour cards after adding...");
-		player.playerHand.DisplayHand();
+		displayHand();
 
 		
 
@@ -350,7 +350,7 @@ public void matchNum() throws Exception {
 				player = removeCards(player, i);
 
 				System.out.println("\nYour cards after removing...");
-				player.playerHand.DisplayHand();
+				displayHand();
 				break;
 
 			}
@@ -366,7 +366,7 @@ public void matchNum() throws Exception {
 		player = addCard(this.currentDeckCard, this.deck, this.player);
 
 		System.out.println("\nYour cards after adding...");
-		player.playerHand.DisplayHand();
+		displayHand();
 		startGame();
 	}
 
@@ -403,7 +403,7 @@ public void match8() throws Exception {
 					player = removeCards(player, i);
 
 					System.out.println("\nYour cards after removing...");
-					player.playerHand.DisplayHand();
+					displayHand();
 					break;
 
 				}
@@ -420,7 +420,7 @@ public void match8() throws Exception {
 		player = addCard(this.currentDeckCard,this.deck, this.player);
 
 		System.out.println("\nYour cards after adding...");
-		player.playerHand.DisplayHand();
+		displayHand();
 		startGame();
 	}
 	
@@ -482,6 +482,15 @@ public boolean checkMatch8(int n, Player player){
 
 	return false;
 }
+
+public void displayHand()	
+	{	
+		//Loop for Each Card in Hand	
+		for(int i = 0; i < player.playerHand.Hand.length; i++)	
+		{	
+			System.out.println(player.playerHand.Hand[i].cardNumber+" of "+player.playerHand.Hand[i].cardSuit);	
+		}	
+	}
 
 	public static void main(String[] args) throws Exception {
 
