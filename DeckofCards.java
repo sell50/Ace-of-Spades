@@ -26,6 +26,7 @@ public class DeckofCards
 	
 	/*
 	 * Name: Default Constructor
+	 * Type:Void
 	 * Description: Shuffles the populated deck
 	 */
 	public DeckofCards() throws Exception

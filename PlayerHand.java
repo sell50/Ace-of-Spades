@@ -1,8 +1,10 @@
-
-public class PlayerHand {
+public class PlayerHand 
+{
 	
 	//Needed Variables 
 	Card[] Hand;
+	int xBase = 10;
+	int yBase = 10;
 	
 	/*
 	 * Name: Player Hand of Cards Function
@@ -13,19 +15,5 @@ public class PlayerHand {
 	public PlayerHand(int cardsForHand)
 	{
 		Hand = new Card[cardsForHand];
-	}
-	
-	/*
-	 * Name: Player Hand Display Function
-	 * Type: void 
-	 * Description: This Function Displays all the Current Cards in the Player's Hand
-	 */
-	public void DisplayHand()
-	{
-		//Loop for Each Card in Hand
-		for(int i = 0; i < Hand.length; i++)
-		{
-			System.out.println(Hand[i].cardNumber+" of "+Hand[i].cardSuit);
-		}
 	}
 }
