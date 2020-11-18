@@ -23,6 +23,7 @@ public class Crazy8s{
     int roundCounter = -2; //is this used?
     boolean winner = false;
     boolean newGame = true;
+	boolean startNewGame;
 
     Crazy8s() throws Exception {
 		
@@ -35,124 +36,121 @@ public class Crazy8s{
 		
     }
 
+    public void newGame() throws Exception {
+		//Needed variables
+
+		boolean start = true;
+		int decision;
+		Crazy8s crazy8s;
+		Scanner input = new Scanner(System.in);
+
+
+		while(start){
+
+			//Prompt to start game
+
+			System.out.println("Welcome to Crazy8s!");
+			System.out.println("Ready to start Crazy8s?");
+			System.out.println("Type 1 for YES, or 2 for NO: ");
+			decision = input.nextInt();
+
+
+			//Start game
+			if(decision == 1){
+				crazy8s = new Crazy8s();
+				crazy8s.startGame();
+
+			}
+
+			else {
+				start = false;
+			}
+		}
+
+		//end game
+		System.out.println("Thanks for playing!");
+
+		input.close();
+	}
+
     public boolean startGame() throws Exception {
-
-			//Needed variables
 		
-			boolean start = true;
-			int decision;
-			Crazy8s crazy8s;
-			Scanner input = new Scanner(System.in);
-	
-			
-			while(start){
-				
-				//Prompt to start game
-				
-				System.out.println("Welcome to Crazy8s!");
-				System.out.println("Ready to start Crazy8s?");
-				System.out.println("Type 1 for YES, or 2 for NO: ");
-				decision = input.nextInt();
-			   
-				
-				//Start game
-				if(decision == 1){
-					crazy8s = new Crazy8s();
-					start = crazy8s.startGame();
+		int rounds = 0;
+		if(newGame){
+			System.out.println("\nGame Start!\n");
+			newGame = false;
+
+			//Deal 5 cards from top of Deck to populate hand
+			DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
+
+			discardPile[0] = deck.Deck[currentDeckCard];
+
+			System.out.println("\nCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
+		}
+
+		//Starting the next round
+
+
+		while(rounds<=20){
+			int i = player.playerHand.Hand.length;
+
+
+
+				if(checkSize(player) == i){
+
+					System.out.println("Number of cards in Hand: " + player.playerHand.Hand.length);
+
+					i = player.playerHand.Hand.length;
+					if(checkMatchNum(i, player)){
+						matchNum();
+
+					}
+					i = player.playerHand.Hand.length;
+					if(checkMatchSuit(i, player)){
+						matchSuit();
+
+					}
+					i = player.playerHand.Hand.length;
+					if(checkMatch8(i, player)){
+						match8();
+
+					}
+
+					//If player does not have matching cards or 8
+					if(currentDeckCard!=deck.Deck.length)
+					{
+						System.out.println("\nYou do not have any matching cards!\n");
+						//Add new card....
+						player = addCard(this.currentDeckCard,this.deck, this.player);
+
+						System.out.println("Adding new card!");
+
+						System.out.println("\nYour cards after adding new card...");
+						player.playerHand.DisplayHand();
+
+					}
+
+					if(player.playerHand.Hand.length == 0)
+					{
+
+					winner = emptyHandWin();
+
+					break;
+
+
+					}
 				}
-					
-				else{
-					start = false;
-				}
-			}
-	
-			//end game
-		  
-			System.out.println("Thanks for playing!");
-		
-			input.close();
-	
-			
-	
+				rounds++;
+		}
 
+		if(!winner){
+			System.out.println("\nOh No!");
+			System.out.println("\nAI Won!");
+			System.out.println("\nYou lose!");
 
-		
-	int rounds = 0;
-	if(newGame==true){
-		System.out.println("\nGame Start!\n");
-		newGame = false;
+		}
 
-		//Deal 5 cards from top of Deck to populate hand
-		DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
-
-		discardPile[0] = deck.Deck[currentDeckCard];
-
-		System.out.println("\nCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
-	}
-
-	//Starting the next round
-				
-		//way to access varying hand lengths? functions on the bottom
-	while(rounds<=40){
-		int i = player.playerHand.Hand.length;
-
-		
-
-			if(checkSize(player) == i){
-
-				System.out.println("Number of cards in Hand: " + player.playerHand.Hand.length);
-
-				i = player.playerHand.Hand.length;
-				if(checkMatchNum(i, player)){
-					matchNum();
-					
-				}
-				i = player.playerHand.Hand.length;
-				if(checkMatchSuit(i, player)){
-					matchSuit();
-					
-				}
-				i = player.playerHand.Hand.length;
-				if(checkMatch8(i, player)){
-					match8();
-					
-				}
-
-				//If player does not have matching cards or 8
-				if(currentDeckCard!=deck.Deck.length)
-				{
-					System.out.println("\nYou do not have any matching cards!\n");
-					//Add new card....
-					player = addCard(this.currentDeckCard,this.deck, this.player);
-					
-					System.out.println("Adding new card!");
-	
-					System.out.println("\nYour cards after adding new card...");
-					player.playerHand.DisplayHand();
-					
-				}
-
-				if(player.playerHand.Hand.length == 0)
-				{
-				
-				winner = emptyHandWin();
-	
-				break;
-				
-			
-				}
-			}
-			rounds++;
-	}
-
-	if(winner == false){
-		System.out.println("\nOh No!");
-		System.out.println("\nAI Won!");
-		System.out.println("\nYou lose!");
-
-	}
-
-	return winner;
+		return winner;
 		
     }
 
@@ -208,6 +206,7 @@ public class Crazy8s{
 			System.out.println("\ntop card after removing...");
 			System.out.println("\tCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
 		}
+
 	}
 
 	public void tossCard(Card card) //creates a pile of cards so we can keep track of the current card at the top
@@ -381,7 +380,7 @@ public void match8() throws Exception {
 
 	System.out.println("\nYour cards:");
 	//player.playerHand.DisplayHand();
-	System.out.println("");
+	//System.out.println("");
 	System.out.println("You have an 8 in your hand!");
 	System.out.println("Would you like to discard it?");
 	System.out.println("Type 1 for YES, or 2 for NO: \n");
@@ -484,7 +483,7 @@ public boolean checkMatch8(int n, Player player){
 	return false;
 }
 
-	/*public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
 		//Needed variables
 		
@@ -523,6 +522,6 @@ public boolean checkMatch8(int n, Player player){
 
 		
 
-	}*/
+	}
     
 }
