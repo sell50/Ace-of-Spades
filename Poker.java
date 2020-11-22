@@ -1,15 +1,34 @@
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import java.util.Scanner;
 import java.util.Random;
 
 
-public class Poker {
+public class Poker extends Application {
 
     DeckofCards pokerDeck ;
     Card [][] hands = new Card [7][];// holds the players and AIs hands along with the cards that are currently on the table
     int [][] amount = new int [6][3] ;//holds both the amount that the ai and player have to bet and the amount that is currently being bet and the fold status 0 being not folded and 1 being folded
     int totalBet;
+    int aiCounter;
 
     public Poker(){ // initialising all the values
+        aiCounter=5;
 
         pokerDeck = new DeckofCards();
 
@@ -34,18 +53,51 @@ public class Poker {
 ////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("CardView.fxml"));
+        root.styleProperty().set("-fx-background-color: #35654d");
+        Scene scene = new Scene (root,800,600,Color.GREEN);
+
+        //scene.sty
+        primaryStage.setTitle("Poker");
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+    }
+
+    public static void main(String[] args) {
+
+        //launch(args);
+        //Poker game = new Poker();
+
+        launch(args);
+        //game.startGame();
+        //President pres = new President();
+    }
+/////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+
 
     public void startGame(){
+
+
         Scanner sc=new Scanner(System.in);
 
-
         boolean fold = false;
-        int temp = 0, winCount=0;
+        int temp = 0, round=0;
 
-        for(int i=0; i<3;i++) {//loops 3 times so gives the user 3 rounds to play
+        for(int i=0; i<3;i++) {//the bigger do while is to see if they want to keep betting or if they want to draw out their money
 
             System.out.println("Round :"+(i+1));
+            //System.out.println(hands[6][0]);
             this.distributeCards();
+            //System.out.println(hands[6][0].cardNumber);
+            //System.out.println(hands[6][0].cardSuit);
+            //System.out.println(hands[6][0].cardImage);
+            //launch();
+
             //this.points(this.hands[0]);
 
             this.playerCards();
@@ -72,16 +124,14 @@ public class Poker {
                 temp = this.round4();//returns 0 if user wins and 1 if ai wins
             }
             if(temp == 0){
-                System.out.println("You have won.");
+                //System.out.println("You have won.");
                 amount[0][0]=amount[0][0]+this.totalBet;
-                winCount++;
             }else{
-                System.out.println("You Lost the round.");
+                //System.out.println("You Lost the round.");
             }
             this.reset();
 
         }
-        System.out.println("You won "+winCount+" times.");
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,6 +145,7 @@ public class Poker {
             this.amount [i] [2] = 0;
 
         }
+        aiCounter=5;
         this.totalBet=0;
 
     }
@@ -180,7 +231,8 @@ public class Poker {
             }else{
                 if(this.hands[i][0].cardNumber<4||this.hands[i][1].cardNumber<4){
                     this.amount[i][2]=1;
-                    System.out.println("AI Number "+i+" has folded");
+                    //System.out.println("AI Number "+i+" has folded");
+                    aiCounter--;
                 }else{
                     this.amount[i][2]=0;
                 }
@@ -301,20 +353,18 @@ public class Poker {
 
     public int round4(){
 
-        this.userOptions();
+        //this.userOptions();
         int x = this.points(this.hands[0]);//player hands point
 
-        for(int i=1;i<6;i++) {
-            if (this.amount[i][2]==0){
-                if (x == points(this.hands[i])) {
-                    //put finding who has higher cards here
-                    if (highCard(i) == true) {
-                        return (1);
-                    }
-                } else if (x < points(this.hands[i])) {
-                    return (1);
+        for(int i=1;i<6;i++){
+            if(x==points(this.hands[i])){
+                //put finding who has higher cards here
+                if(highCard(i)==true){
+                    return(1);
                 }
-        }
+            }else if(x<points(this.hands[i])){
+                return(1);
+            }
         }
 
         return(0);
@@ -380,21 +430,21 @@ public class Poker {
         ////////////////////// the flushes
         if (mixCard[2].cardNumber == 10 && mixCard[3].cardNumber == 11 && mixCard[4].cardNumber == 12 && mixCard[5].cardNumber == 13 && mixCard[6].cardNumber == 14) {//rpyal flush
             if(mixCard[2].cardSuit .equals(mixCard[3].cardSuit) && mixCard[3].cardSuit .equals(mixCard[4].cardSuit) && mixCard[4].cardSuit .equals(mixCard[5].cardSuit) && mixCard[5].cardSuit .equals(mixCard[6].cardSuit) ) {//checks if it is a straight flush
-                //System.out.println("10");
+                System.out.println("10");
                 return (10);
             }
         }
 
         if((mixCard[0].cardNumber == mixCard[1].cardNumber +1 && mixCard[1].cardNumber == mixCard[2].cardNumber +1 && mixCard[2].cardNumber == mixCard[3].cardNumber +1 && mixCard[3].cardNumber == mixCard[4].cardNumber +1 )){//checks if it is a straight flush
             if(mixCard[0].cardSuit .equals(mixCard[1].cardSuit) && mixCard[1].cardSuit .equals(mixCard[2].cardSuit) && mixCard[2].cardSuit .equals(mixCard[3].cardSuit) && mixCard[3].cardSuit .equals(mixCard[4].cardSuit) ) {
-                //System.out.println("9");
+                System.out.println("9");
                 return (9);
             }
         }
 
         if((mixCard[1].cardNumber == mixCard[2].cardNumber +1 && mixCard[2].cardNumber == mixCard[3].cardNumber +1 && mixCard[3].cardNumber == mixCard[4].cardNumber +1 && mixCard[4].cardNumber == mixCard[5].cardNumber +1 )){//checks if it is a straight flush
             if(mixCard[1].cardSuit .equals(mixCard[2].cardSuit) && mixCard[2].cardSuit .equals(mixCard[3].cardSuit) && mixCard[3].cardSuit .equals(mixCard[4].cardSuit) && mixCard[4].cardSuit .equals(mixCard[5].cardSuit) ) {
-                //System.out.println("9");
+                System.out.println("9");
                 return (9);
             }
 
@@ -402,7 +452,7 @@ public class Poker {
 
         if((mixCard[2].cardNumber == mixCard[3].cardNumber +1 && mixCard[3].cardNumber == mixCard[4].cardNumber +1 && mixCard[4].cardNumber == mixCard[5].cardNumber +1 && mixCard[5].cardNumber == mixCard[6].cardNumber +1 )) {//checks if it is a straight flush
             if(mixCard[2].cardSuit .equals(mixCard[3].cardSuit) && mixCard[3].cardSuit .equals(mixCard[4].cardSuit) && mixCard[4].cardSuit .equals(mixCard[5].cardSuit) && mixCard[5].cardSuit .equals(mixCard[6].cardSuit) ) {
-                //System.out.println("9");
+                System.out.println("9");
                 return (9);
             }
         }
@@ -418,7 +468,7 @@ public class Poker {
                 }
             }
             if(x==3){
-                //System.out.println("8");
+                System.out.println("8");
                 return(8);
             }
         }
@@ -429,7 +479,7 @@ public class Poker {
 
         if(mixCard[0].cardNumber == mixCard[1].cardNumber||mixCard[5].cardNumber == mixCard[6].cardNumber){
             if((mixCard[2].cardNumber == mixCard[3].cardNumber&&mixCard[3].cardNumber == mixCard[4].cardNumber&&mixCard[4].cardNumber == mixCard[5].cardNumber&&mixCard[5].cardNumber == mixCard[6].cardNumber)||(mixCard[0].cardNumber == mixCard[1].cardNumber&&mixCard[1].cardNumber == mixCard[2].cardNumber&&mixCard[2].cardNumber == mixCard[3].cardNumber&&mixCard[3].cardNumber == mixCard[4].cardNumber)){
-                //System.out.println("7");
+                System.out.println("7");
                 return(7);
             }
         }
@@ -445,7 +495,7 @@ public class Poker {
                 }
             }
             if(x==4){
-                //System.out.println("6");
+                System.out.println("6");
                 return (6);
             }
 
@@ -463,7 +513,7 @@ public class Poker {
                 }
             }
             if(x==4){
-                //System.out.println("5");
+                System.out.println("5");
                 return (5);
             }
 
@@ -484,7 +534,7 @@ public class Poker {
                 }
             }
             if(x==2){
-                //System.out.println("4");
+                System.out.println("4");
                 return (4);
             }
 
@@ -499,7 +549,7 @@ public class Poker {
             if(mixCard[i].cardNumber==mixCard[i+1].cardNumber){
                 for(int j=i+2;j<6;j++){
                     if(mixCard[j].cardNumber==mixCard[j+1].cardNumber){
-                        //System.out.println("3");
+                        System.out.println("3");
                         return (3);
                     }
                 }
@@ -513,7 +563,7 @@ public class Poker {
 
         for(int i=0;i<6;i++){
             if(mixCard[i].cardNumber==mixCard[i+1].cardNumber){
-                //.out.println("2");
+                System.out.println("2");
                 return (2);
             }
         }
