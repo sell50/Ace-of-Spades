@@ -1,25 +1,37 @@
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Random;
 
-public class DeckofCards {
-	
+import javafx.scene.image.Image;
+
+public class DeckofCards 
+{
+
+	//Objects Kept In
+	InputStream stream;
+	InputStream cardBackStream;
+	Image cardFront;
+	Image cardBack; 
+			
 	//Variables Kept In
 	Card card, tempCard;
 	int[] cardNumbers = {2,3,4,5,6,7,8,9,10,11,12,13,14};
-	String[] cardSuits = {"Hearts","Spades","Clubs","Diamonds"};
+	String[] cardSuits = {"H","S","C","D"};
 	int cardID=0;
 	int shuffleNum;
-
+	String PicturePath = "C:\\Users\\Brett\\eclipse-workspace\\Ace of Spades\\Cards\\PNG\\";
+	
 	//Variables Sent Out
 	Card[] Deck = new Card[52];
 	
 	/*
 	 * Name: Default Constructor
+	 * Type:Void
 	 * Description: Shuffles the populated deck
 	 */
-	public DeckofCards()
+	public DeckofCards() throws Exception
 	{
 		ShuffleDeck(PopulateDeck());
-		System.out.println("\n*-----------------------------------*\n");
 	}
 	
 	/*
@@ -28,16 +40,24 @@ public class DeckofCards {
 	 * Description: This function is used to generate a standard deck of 52 unique cards
 	 * 				Each card object is then stored in the Deck[] which is returned by the function
 	 */
-	private Card[] PopulateDeck() 
+	private Card[] PopulateDeck() throws Exception
 	{
+		
+		//Setting CardBack Image
+		cardBack = new Image(cardBackStream = new FileInputStream(PicturePath+"CardBack.png"));
+		
 		//4 Suits
 		for(int i=0;i<cardSuits.length;i++) 
 		{
 			//13 Numbers
 			for(int j=0;j<cardNumbers.length;j++) 
 			{
+				
+				stream = new FileInputStream(PicturePath+cardNumbers[j]+cardSuits[i]+".png");
+				cardFront = new Image(stream);
+				
 				//Creating Card Objects 
-				card = new Card(cardNumbers[j],cardSuits[i]);
+				card = new Card(cardNumbers[j],cardSuits[i],cardFront,cardBack);
 				
 				//Adding Cards to Deck
 				Deck[cardID]=card;
