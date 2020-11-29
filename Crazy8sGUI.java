@@ -1,8 +1,8 @@
 import java.io.File;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -26,173 +26,474 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class Crazy8sGUI extends Application
+public class Crazy8sGUI extends Application implements EventHandler<ActionEvent>
 {
 
     Crazy8s crazy8s = new Crazy8s();  //used to add methods in crazy8s() class
 
-    public HBox playerHand;  //player cards
-    public Button[] playerCards; //button to toss a matching card
-    public Button[] addCard;  //button to add a card when no match
-	int playerNumCards;  //number of player cards
-	HBox pCards;  //discard pile of cards (?)
-	int rounds = 0;
+    //needed variables
+    public VBox format1; //outside vbox
+    public VBox format2; //top vbox
+    public VBox format3; //bottom vbox
+    
+    public HBox textBox; //Horizontal box for messages... can change?
+    public HBox playerHand; //Horizontal box for hand
+    public HBox discardPile; //Horizontal box for discard pile
+    public HBox addCardButton;
+    
+    public Text yourCardsText; //Text to put into textBox (HBox) over playerHand
+    
+    public Button[] playerCards; //Buttons for playerHand
+    public Button addCard; //Button to add a new card to hand
+    
+    public Image card; //Needed to display image of cards;
+    public String message; //Shows messages on screen
+    int numPlayerCards; //Sets the number of player cards in hand
+    
 
 	public Crazy8sGUI() throws Exception
 	{
-
+		//purposely left empty?
 	}
 
 	public Parent createWindow(Stage stage) throws Exception
 	{
-		Pane root = new Pane();
-		root.setPrefSize(800, 600); //sets the size of the scene to the window created
-
-		Region backGround = new Region();
-		backGround.setPrefSize(800, 600);
-		backGround.setStyle("-fx-background-color: rgba(0, 0, 0, 1)"); //sets the background to black
-
-		playerHand = new HBox(5); //initialize necessary variables
-
-		playerNumCards = 0;
-
-		pCards = new HBox();
-
-		HBox rootDesign = new HBox(5); //create a HBox and set spacing between nodes to 5
-		rootDesign.setPadding(new Insets(1, 1, 1, 1)); //set a small thin transparent border across the frame
-
-
-		Rectangle leftFrame = new Rectangle(550, 560); //make the left frame bigger then the right frame
-		leftFrame.setFill(Color.GREEN);//set the colour to the left frame to green
-		Rectangle rightFrame = new Rectangle(230, 560); //set the sizing for the right frame which is smaller then the left frame
-		rightFrame.setFill(Color.DARKOLIVEGREEN); //set the colour to the right frame to a dark olive green
-
-		//Left frame containing the cards of each player
-
-		playerCards = new Button[crazy8s.player.playerHand.Hand.length]; //the players cards will be buttons that show the image of the card its index is at and are intractable
-
-		for (int i = 0; i < playerCards.length; i++) {
-			File file = new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\" + crazy8s.player.playerHand.Hand[i].cardNumber + " of " + crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
+		//root
+		Pane root = new Pane(); //Sets the scene
+		root.setPrefSize(800, 600); //Sets scene size
+		
+		root.styleProperty().set("-fx-background-color: rgba(48, 89, 54, 1)"); //Sets the background colour to dark green
+		
+		//initialize vbox
+		format1 = new VBox();
+		format2 = new VBox();
+		format3 = new VBox();
+		
+		//initialize hbox
+		textBox = new HBox();
+		playerHand = new HBox(5); 
+		discardPile = new HBox(); 
+		//TAKE THIS OUT
+		addCardButton = new HBox();
+		
+		//Texts on screen
+		yourCardsText = new Text("Your Cards"); //Adds text on top of player cards
+		
+		//playerCards = new Button[10];	
+		playerCards = new Button[crazy8s.player.playerHand.Hand.length]; //Player cards are buttons equal to the length of the hand
+		
+		//TAKE THIS OUT
+		addCard = new Button("Add Card"); //Creates a button to add a card to hand
+		
+		numPlayerCards = 0;
+		
+		//Player card images
+		System.out.println(playerCards.length); //test
+		
+		for(int i = 0; i < playerCards.length; i++)
+		{
+			System.out.println("*"+crazy8s.player.playerHand.Hand[i].cardNumber + crazy8s.player.playerHand.Hand[i].cardSuit); //test
+			File file = new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.player.playerHand.Hand[i].cardNumber + crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
 			Image cards = new Image(file.toURI().toString(), 35, 60, false, true); //create a new image for each card so that each node is unique with the parent node having no duplicates
 			ImageView cardsView = new ImageView(cards);
 			playerCards[i] = new Button("", cardsView);
+			playerCards[i].setOnAction(this);
 			playerCards[i].setMinSize(35, 60); //set the sizing of the buttons to be the same size as the image of the cards so that they are flush
 			playerCards[i].setMaxSize(35, 60);
 		}
-
-		playerHand.getChildren().addAll(playerCards); //add all the buttons to the playerHand box
-
-		Text player = new Text("Player");
-
-		VBox leftVBox = new VBox(15);
-		leftVBox.setAlignment(Pos.TOP_LEFT); //align all the contents to the top left
-		leftVBox.getChildren().addAll(player, playerHand); //add in all the contents of the HBoxs to one bug VBox to create the left frame
-
-		//Right frame containing the pile of cards
-
-		VBox rightVBox = new VBox(25);
-		rightVBox.setAlignment(Pos.CENTER);
-
-		Image discardPile = new Image(new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\" + crazy8s.discardPile[0].cardNumber + " of " + crazy8s.discardPile[0].cardSuit + ".png").toURI().toString(), 50, 80, false, true);
-		ImageView pileCardsView = new ImageView(discardPile); //get the image for the current top card in the pile deck
-		pCards.getChildren().add(pileCardsView);
-		pCards.setAlignment(Pos.CENTER);
-
-		Dialog<String> infoText = new Dialog<String>(); //create the dialog for the information button
-		infoText.setTitle("How to play"); //set the title, and the content of how to play the game and what the objective is
-		infoText.setContentText("Welcome to Crazy8s! the objective is to get rid of all the cards in your hand.\nIf you place an ace down the pile resets.\nThe game has started and the president has given their worst 2 cards for the scums best 2 cards, and the vice-president has traded their worst card for the vice-scums best card.\n1st place is given the title president, 2nd is vice-president, 3rd is vice-scum, and 4th place is the scum\nIf you wish to skip or have no playable cards, then click any of your cards as long as its number is less then the current top card.\nGood luck!");
-		ButtonType infobtn = new ButtonType("Ok", ButtonData.OK_DONE); //set the dialog box to close once the player hits the ok button
-		infoText.getDialogPane().getButtonTypes().add(infobtn);
-		Button howToPlay = new Button("Info");
-
-		rightVBox.getChildren().addAll(pCards, howToPlay); //add the contents to the right VBox
-
-		rootDesign.getChildren().addAll(new StackPane(leftFrame, leftVBox), new StackPane(rightFrame, rightVBox)); //create the design by adding the preferences for each frame, and its contents
-		root.getChildren().addAll(backGround, rootDesign);
-
-		howToPlay.setOnAction(event -> { //set the event handler when the button is clicked
-			infoText.showAndWait(); //window opens and waits for the player to close it
-		});
-
-		//for loop goes here??
-		for(int i = 0; i< playerCards.length; i++)
-		{
-			int index = i;
-
-			playerCards[i].setOnAction(event -> {
-
-				//president.playerTurn();
-				if(crazy8s.player.playerHand.Hand[index].cardNumber == crazy8s.discardPile[0].cardNumber)
-				{
-					playerHand.getChildren().remove(playerCards[index]);
-					playerNumCards--;
-					rounds++;
-				}
-
-				if(playerNumCards == 0)
-				{
-					try {
-						gameEnd(stage);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-
-				else if(rounds<20)
-				{
-					try {
-						gameEnd(stage);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-		//ADD BUTTON FOR ADDING NEW CARDS!
-
-		return root;
-
-	}
-
-	private void updateTopCard()
-	{
-		pCards.getChildren().remove(0); //removes the old image for the top card
-		Image topDiscardCard = new Image(new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\" + crazy8s.discardPile[0].cardNumber + " of " + crazy8s.discardPile[0].cardSuit + ".png").toURI().toString(), 50, 80, false, false); //loads the new image
-		ImageView topCardView = new ImageView(topDiscardCard);
-		pCards.getChildren().add(topCardView); //adds the new top card image
-	}
-
-	private void gameEnd(Stage stage) throws Exception //CHANGE THIS
-	{
-		String message = new String();
-		//do something here?
-		if(crazy8s.emptyHandWin()){
-			message = "Congratulations! You won the game!\nThanks for Playing!\nPlay Again?";
-		}
-		else if(!crazy8s.winner)      {
-			message = "Oh No! AI won...\nThanks for playing!\nPlay again?";
-		}
-
-		Alert endMsg = new Alert(AlertType.NONE, message, ButtonType.YES, ButtonType.NO); //open a new alert box asking the player if the would like to play again
-		Optional<ButtonType> choice = endMsg.showAndWait();
-		ButtonType btn = choice.orElse(ButtonType.NO);
+		
+		//Discard pile images
+		System.out.println(crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit); //test
+		Image pileCards = new Image(new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit + ".png").toURI().toString(), 50, 80, false, true);
+		ImageView pileCardsView = new ImageView(pileCards); //get the image for the current top card in the pile deck
+		
+		//HBox set
+		textBox.getChildren().add(yourCardsText);
+		textBox.setAlignment(Pos.CENTER);
+		playerHand.getChildren().addAll(playerCards);
+		playerHand.setAlignment(Pos.CENTER);
+		discardPile.getChildren().add(pileCardsView);
+		discardPile.setAlignment(Pos.CENTER);
+		
+		//TAKE THIS OUT
+		addCardButton.getChildren().add(addCard);
+		
+		//VBox set
+		format1.getChildren().addAll(textBox, playerHand);
+		format1.setAlignment(Pos.CENTER);
+		format2.getChildren().addAll(discardPile,addCardButton);
+		format2.setAlignment(Pos.CENTER);
+		format3.getChildren().addAll(format1, format2);
+		format3.setAlignment(Pos.CENTER);
+		
+		//root set
+		root.getChildren().addAll(format3);
+		
+		//if no match
+		
+		if(crazy8s.currentDeckCard!=crazy8s.deck.Deck.length) {
 			
-		if(btn == ButtonType.YES) //if they hit yes then close the current window, reset the president class, and create a new stage
-		{
-			stage.close();
-			crazy8s = new Crazy8s();
-			start(new Stage());
+			System.out.println("Got to no match!!");
+			
+			playerHand.getChildren().removeAll(playerCards);
+			//update new hand?
+			
+			playerCards = new Button[crazy8s.player.playerHand.Hand.length];
+			
+			for(int i = 0; i < playerCards.length; i++)
+			{
+				
+				File file = new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.player.playerHand.Hand[i].cardNumber +  crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
+				Image cards = new Image(file.toURI().toString(), 35, 60, false, true); //create a new image for each card so that each node is unique with the parent node having no duplicates
+				ImageView cardsView = new ImageView(cards);
+				playerCards[i] = new Button("", cardsView);
+				playerCards[i].setOnAction(this);
+				playerCards[i].setMinSize(35, 60); //set the sizing of the buttons to be the same size as the image of the cards so that they are flush
+				playerCards[i].setMaxSize(35, 60);
+			}
+			
+			//add it to scene
+			
+			playerHand.getChildren().addAll(playerCards);
 		}
-		else
-		{
-			stage.close(); //else if they choose to quit then close the window and end the game
+		
+		return root; //Returns to scene pane
+	}
+	
+	//clicking anything
+	@Override
+	public void handle(ActionEvent e){
+		if(e.getSource()==playerCards[0]) {
+			try {
+				
+				if(crazy8s.cardClicked(0)) {
+					System.out.println("got to first CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(0);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
 		}
+		
+		
+		else if(e.getSource()==playerCards[1]) {
+			try {
+				if(crazy8s.cardClicked(1)) {
+					System.out.println("got to second CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(1);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(e.getSource()==playerCards[2]) {
+			try {
+				
+				if(crazy8s.cardClicked(2)) {
+					System.out.println("got to third CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(2);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(e.getSource()==playerCards[3]) {
+			try {
+				
+				if(crazy8s.cardClicked(3)) {
+					System.out.println("got to fourth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(3);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(e.getSource()==playerCards[4]) {
+			try {
+				if(crazy8s.cardClicked(4)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(4);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		else if(e.getSource()==playerCards[5]) {
+			try {
+				if(crazy8s.cardClicked(5)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(5);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(e.getSource()==playerCards[6]) {
+			try {
+				if(crazy8s.cardClicked(6)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(6);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(e.getSource()==playerCards[7]) {
+			try {
+				if(crazy8s.cardClicked(7)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(7);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		else if(e.getSource()==playerCards[8]) {
+			try {
+				if(crazy8s.cardClicked(8)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(8);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		if(e.getSource()==playerCards[9]) {
+			try {
+				if(crazy8s.cardClicked(9)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(9);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		if(e.getSource()==playerCards[10]) {
+			try {
+				if(crazy8s.cardClicked(10)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(10);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		if(e.getSource()==playerCards[11]) {
+			try {
+				if(crazy8s.cardClicked(11)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(11);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		if(e.getSource()==playerCards[12]) {
+			try {
+				if(crazy8s.cardClicked(12)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(12);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		if(e.getSource()==playerCards[13]) {
+			try {
+				if(crazy8s.cardClicked(13)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(13);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		if(e.getSource()==playerCards[14]) {
+			try {
+				if(crazy8s.cardClicked(14)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(14);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		if(e.getSource()==playerCards[15]) {
+			try {
+				if(crazy8s.cardClicked(15)) {
+					System.out.println("got to fifth CardClicked!");
+					updateTopCard();
+					playerHand.getChildren().remove(15);
+					endGame();
+					System.out.println("New top card: " +crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit);
+				}
+				else {
+					addCard();
+				}
+			}catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
 	}
 
-	@Override
+	public void endGame() {
+		if(crazy8s.rounds==10) {
+			message="Oh No! AI Won! Game Over!";
+			yourCardsText.setText(message);
+			System.exit(0);
+			
+		}
+	}
+	
+	public void addCard() {
+		if(crazy8s.currentDeckCard!=crazy8s.deck.Deck.length) {
+					
+			System.out.println("Got to no match!!");
+					
+			playerHand.getChildren().removeAll(playerCards);
+			//update new hand?
+					
+			playerCards = new Button[crazy8s.player.playerHand.Hand.length];
+					
+			for(int i = 0; i < playerCards.length; i++)
+			{
+						
+				File file = new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.player.playerHand.Hand[i].cardNumber +  crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
+				Image cards = new Image(file.toURI().toString(), 35, 60, false, true); //create a new image for each card so that each node is unique with the parent node having no duplicates
+				ImageView cardsView = new ImageView(cards);
+				playerCards[i] = new Button("", cardsView);
+				playerCards[i].setOnAction(this);
+				playerCards[i].setMinSize(35, 60); //set the sizing of the buttons to be the same size as the image of the cards so that they are flush
+				playerCards[i].setMaxSize(35, 60);
+			}
+					
+			//add it to scene
+					
+			playerHand.getChildren().addAll(playerCards);
+		}
+	}
+	
+	public void updateTopCard()
+	{
+		discardPile.getChildren().remove(0); //removes the old image for the top card
+		Image topCard = new Image(new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit + ".png").toURI().toString(), 50, 80, false, false); //loads the new image
+		ImageView topCardView = new ImageView(topCard);
+		discardPile.getChildren().add(topCardView); //adds the new top card image
+	}
+
+	//@Override
 	public void start(Stage crazy8sStage) throws Exception 
 	{
-		// TODO Auto-generated method stub
+		crazy8s = new Crazy8s();
+		//This line calls a function to set up the entire scene
 		crazy8sStage.setScene(new Scene(createWindow(crazy8sStage)));
 		crazy8sStage.setWidth(800);
 		crazy8sStage.setHeight(600);
@@ -200,6 +501,8 @@ public class Crazy8sGUI extends Application
 		crazy8sStage.setTitle("Crazy8s");
 		crazy8sStage.show();
 	}
+	
+	
     public static void main(String[] args) 
 	{
 		launch(args);

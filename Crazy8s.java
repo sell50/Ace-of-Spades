@@ -24,6 +24,9 @@ public class Crazy8s{
     boolean winner = false;
     boolean newGame = true;
 	boolean startNewGame;
+	String message = "Welcome to Crazy8s!";
+	int checkIndex = 0;
+	int rounds = 0;
 
     Crazy8s() throws Exception {
 		
@@ -33,7 +36,9 @@ public class Crazy8s{
         deck.ShuffleDeck(deck.Deck);
         player = new Player(cardsForHand);
 		str = new Scanner(System.in);
-		
+		//Deal 5 cards from top of Deck to populate hand
+		DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
+		discardPile[0] = deck.Deck[currentDeckCard];
     }
 
     public void newGame() throws Exception {
@@ -75,21 +80,21 @@ public class Crazy8s{
 
     public boolean startGame() throws Exception {
 		
-		int rounds = 0;
+		//int rounds = 0;
 		if(newGame){
 			System.out.println("\nGame Start!\n");
 			newGame = false;
 
 			//Deal 5 cards from top of Deck to populate hand
-			DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
+			//DealCards(this.currentDeckCard,this.deck, this.player.playerHand);
 
-			discardPile[0] = deck.Deck[currentDeckCard];
+			//discardPile[0] = deck.Deck[currentDeckCard];
 
 			System.out.println("\nCurrent top card is " + discardPile[0].cardNumber + " of " + discardPile[0].cardSuit + "\n");
 		}
 
 		//Starting the next round
-
+		/*int checkIndex = 0;
 
 		while(rounds<=20){
 			int i = player.playerHand.Hand.length;
@@ -101,19 +106,36 @@ public class Crazy8s{
 					System.out.println("Number of cards in Hand: " + player.playerHand.Hand.length);
 
 					i = player.playerHand.Hand.length;
+					
 					if(checkMatchNum(i, player)){
-						matchNum();
-
+						
+						checkIndex = checkIndexNum(i, player);
+						
+						if(checkIndex>= 0){
+								matchNum(checkIndex);
+						}
 					}
+					
 					i = player.playerHand.Hand.length;
+					
 					if(checkMatchSuit(i, player)){
-						matchSuit();
-
+						
+						checkIndex = checkIndexSuit(i, player);
+						
+						if(checkIndex>= 0){
+							matchSuit(checkIndex);
+						}
 					}
+					
 					i = player.playerHand.Hand.length;
+					
 					if(checkMatch8(i, player)){
-						match8();
-
+						
+						checkIndex = checkIndex8(i,player);
+						
+						if(checkIndex>= 0){
+							match8(checkIndex);
+						}
 					}
 
 					//If player does not have matching cards or 8
@@ -141,7 +163,7 @@ public class Crazy8s{
 					}
 				}
 				rounds++;
-		}
+		}*/
 
 		if(!winner){
 			System.out.println("\nOh No!");
@@ -273,9 +295,24 @@ public int checkSize(Player player){
 
 }
 
-public void matchSuit() throws Exception {
+public void matchSuit(int i) throws Exception {
 	Card tempCard;
-	int decision;
+	//int decision;
+	
+	if (player.playerHand.Hand[i].cardSuit.equals(discardPile[0].cardSuit)) {
+		tempCard = player.playerHand.Hand[i];
+		tossCard(tempCard);
+
+		player = removeCards(player, i);
+		
+
+		System.out.println("\nYour cards after removing...");
+		displayHand();
+
+		startGame();
+
+	}
+	/*
 	Scanner input = new Scanner(System.in);
 
 	System.out.println("\nYou have a matching card suit!");
@@ -321,12 +358,28 @@ public void matchSuit() throws Exception {
 
 		startGame();
 	}
+	*/
 	
 }
 
-public void matchNum() throws Exception {
-	int decision;
+public void matchNum(int i) throws Exception {
+	//int decision;
 	Card tempCard;
+	
+	if (player.playerHand.Hand[i].cardNumber == discardPile[0].cardNumber) {
+
+		tempCard = player.playerHand.Hand[i];
+		tossCard(tempCard);
+
+		player = removeCards(player, i);
+
+		System.out.println("\nYour cards after removing...");
+		displayHand();
+		
+		startGame();
+
+	}
+	/*
 	Scanner input = new Scanner(System.in);
 
 	System.out.println("\nYou have a matching card number!");
@@ -369,13 +422,30 @@ public void matchNum() throws Exception {
 		displayHand();
 		startGame();
 	}
-
+	
+	*/
+	
 	
 }
 
-public void match8() throws Exception {
-	int decision;
+public void match8(int i) throws Exception {
+	//int decision;
 	Card tempCard;
+	
+	if(player.playerHand.Hand[i].cardNumber == 8){
+		tempCard = player.playerHand.Hand[i];
+		tossCard(tempCard);
+
+		player = removeCards(player, i);
+
+		System.out.println("\nYour cards after removing...");
+		displayHand();
+		
+		startGame();
+
+	}
+	
+	/*
 	Scanner input = new Scanner(System.in);
 
 	System.out.println("\nYour cards:");
@@ -423,7 +493,7 @@ public void match8() throws Exception {
 		displayHand();
 		startGame();
 	}
-	
+	*/
 }
 
 public boolean emptyHandWin(){
@@ -442,11 +512,11 @@ public boolean checkMatchNum(int n, Player player){
 
 	//System.out.println("Number of cards in Hand: " + n);
 
-	for(int i = 0; i<n; i++){
-		if(discardPile[0].cardNumber == player.playerHand.Hand[i].cardNumber){
+	//for(int i = 0; i<n; i++){
+		if(discardPile[0].cardNumber == player.playerHand.Hand[n].cardNumber){
 			return true;
 		}
-	}
+	//}
 
 	return false;
 }
@@ -458,11 +528,11 @@ public boolean checkMatchSuit(int n, Player player){
 
 	//System.out.println("Number of cards in Hand: " + n);
 
-	for(int i = 0; i<n; i++){
-		if(discardPile[0].cardSuit.equals(player.playerHand.Hand[i].cardSuit)){
+	//for(int i = 0; i<n; i++){
+		if(discardPile[0].cardSuit.equals(player.playerHand.Hand[n].cardSuit)){
 			return true;
 		}
-	}
+	//}
 
 	return false;
 }
@@ -474,14 +544,46 @@ public boolean checkMatch8(int n, Player player){
 
 	//System.out.println("Number of cards in Hand: " + n);
 
-	for(int i = 0; i<n; i++){
-		if(player.playerHand.Hand[i].cardNumber == 8){
+	//for(int i = 0; i<n; i++){
+		if(player.playerHand.Hand[n].cardNumber == 8){
 			return true;
 		}
-	}
+	//}
 
 	return false;
 }
+
+/*
+public int checkIndexNum(int n, Player player) {
+	for(int i = 0; i<n; i++){
+		if(discardPile[0].cardNumber == player.playerHand.Hand[i].cardNumber){
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+public int checkIndexSuit(int n, Player player) {
+	for(int i = 0; i<n; i++){
+		if(discardPile[0].cardSuit.equals(player.playerHand.Hand[i].cardSuit)){
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+public int checkIndex8(int n, Player player) {
+	for(int i = 0; i<n; i++){
+		if(player.playerHand.Hand[i].cardNumber == 8){
+			return i;
+		}
+	}
+
+	return -1;
+}
+*/
 
 public void displayHand()	
 	{	
@@ -491,6 +593,91 @@ public void displayHand()
 			System.out.println(player.playerHand.Hand[i].cardNumber+" of "+player.playerHand.Hand[i].cardSuit);	
 		}	
 	}
+
+public boolean cardClicked(int i) throws Exception {
+	//while(rounds<=20){
+		//i = player.playerHand.Hand.length;
+
+
+
+			//if(checkSize(player) == i){
+
+				System.out.println("Number of cards in Hand: " + player.playerHand.Hand.length);
+
+				//i = player.playerHand.Hand.length;
+				
+				if(checkMatchNum(i, player)){
+					
+					//checkIndex = checkIndexNum(i, player); //??
+					System.out.println("got to chechMatchNum!");
+					//if(checkIndex>= 0){
+						//matchNum(checkIndex);
+					matchNum(i);
+					
+					System.out.println("got to matchNum!");
+					return true;
+					//}
+				}
+				
+				//i = player.playerHand.Hand.length;
+				
+				if(checkMatchSuit(i, player)){
+					
+					//checkIndex = checkIndexSuit(i, player); //??
+					System.out.println("got to chechMatchSuit!");
+					//if(checkIndex>= 0){
+						//matchSuit(checkIndex);
+					matchSuit(i);
+					
+					System.out.println("got to matchSuit!");
+					return true;
+					//}
+				}
+				
+				//i = player.playerHand.Hand.length;
+				
+				if(checkMatch8(i, player)){
+					
+					//checkIndex = checkIndex8(i,player); //?
+					System.out.println("got to checkMatch8!");
+					//if(checkIndex>= 0){
+						//match8(checkIndex);
+					match8(i);
+					
+					System.out.println("got to match8!");
+					return true;
+					//}
+				}
+
+				//If player does not have matching cards or 8
+				else if(currentDeckCard!=deck.Deck.length)
+				{
+					System.out.println("\nYou do not have any matching cards!\n");
+					//Add new card....
+					player = addCard(this.currentDeckCard,this.deck, this.player);
+
+					System.out.println("Adding new card!");
+
+					System.out.println("\nYour cards after adding new card...");
+					displayHand();
+					return false;
+
+				}
+
+				if(player.playerHand.Hand.length == 0)
+				{
+
+					winner = emptyHandWin();
+					return true;
+				//break;
+
+
+				}
+			//}
+			rounds++;
+			return false;
+	//}
+}
 
 	public static void main(String[] args) throws Exception {
 
