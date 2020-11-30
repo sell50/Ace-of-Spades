@@ -40,13 +40,15 @@ public class PokerController implements Initializable {
     @FXML private Button fold;
     @FXML private Button check;
     @FXML private TextField bet;
+    
+    String PicturePath = "C:\\Users\\Brett\\eclipse-workspace\\Ace of Spades\\Cards\\PNG\\";
 
     private int i=0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        Image x = new Image("./backOfCard.png");
+        Image x = new Image(PicturePath+"CardBack.png");
         count=1;//counts the number of rounds that have occured
         RoundWinStatement.setText("Number of Rounds Won: " + winCount);
 
@@ -84,7 +86,7 @@ public class PokerController implements Initializable {
             poker.distributeCards();
 
 
-            Image x = new Image("./backOfCard.png");
+            Image x = new Image(PicturePath+"CardBack.png");
             roundCount.setText("Round " + count +":");
             CommunityCard1.setImage((x));
             CommunityCard2.setImage((x));
@@ -185,12 +187,4 @@ public class PokerController implements Initializable {
             }
         }
     }
-
-
-
-
-
-
-
-
 }

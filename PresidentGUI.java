@@ -37,6 +37,8 @@ public class PresidentGUI extends Application {
 	int ai1NumCards, ai2NumCards, ai3NumCards;
 	HBox pCards;
 	
+	String PicturePath = "C:\\Users\\Brett\\eclipse-workspace\\Ace of Spades\\Cards\\PNG\\";
+
 	public Parent createWindow(Stage stage) //creates the main scene for the game
 	{
 		
@@ -70,7 +72,7 @@ public class PresidentGUI extends Application {
 		
 		for(int i = 0; i < playerCards.length; i++)
 		{
-			File file = new File("C:\\Users\\Christopher\\Desktop\\deckOfCards\\" + president.player.playerHand.Hand[i].cardNumber + " of " + president.player.playerHand.Hand[i].cardSuit + ".png");
+			File file = new File(PicturePath + president.player.playerHand.Hand[i].cardNumber + president.player.playerHand.Hand[i].cardSuit + ".png");
 			Image cards = new Image(file.toURI().toString(), 35, 60, false, true); //create a new image for each card so that each node is unique with the parent node having no duplicates
 			ImageView cardsView = new ImageView(cards);
 			playerCards[i] = new Button("", cardsView);
@@ -82,21 +84,21 @@ public class PresidentGUI extends Application {
 		
 		for(int i = 0; i < playerCards.length; i++) //for the ai players we don't want the player to see which cards the ai use so set each image to the back of the card.
 		{											//we create a new item instance of the backofCard image since we can't have duplicate nodes
-			File file = new File("C:\\Users\\Christopher\\Desktop\\deckOfCards\\backofCard.png");
+			File file = new File(PicturePath+"CardBack.png");
 			Image aiPlayerCards = new Image(file.toURI().toString(), 35, 60, false, true);
 			ImageView aiPlayerCardsView = new ImageView(aiPlayerCards);
 			ai1PlayerHand.getChildren().add(aiPlayerCardsView); //add directly to the HBox
 		}
 		for(int i = 0; i < playerCards.length; i++)
 		{
-			File file = new File("C:\\Users\\Christopher\\Desktop\\deckOfCards\\backofCard.png");
+			File file = new File(PicturePath+"CardBack.png");
 			Image aiPlayerCards = new Image(file.toURI().toString(), 35, 60, false, true);
 			ImageView aiPlayerCardsView = new ImageView(aiPlayerCards);
 			ai2PlayerHand.getChildren().add(aiPlayerCardsView);
 		}
 		for(int i = 0; i < playerCards.length; i++)
 		{
-			File file = new File("C:\\Users\\Christopher\\Desktop\\deckOfCards\\backofCard.png");
+			File file = new File(PicturePath+"CardBack.png");
 			Image aiPlayerCards = new Image(file.toURI().toString(), 35, 60, false, true);
 			ImageView aiPlayerCardsView = new ImageView(aiPlayerCards);
 			ai3PlayerHand.getChildren().add(aiPlayerCardsView);
@@ -116,7 +118,7 @@ public class PresidentGUI extends Application {
 		rightVBox.setAlignment(Pos.CENTER);
 		
 		
-		Image pileCards = new Image(new File("C:\\Users\\Christopher\\Desktop\\deckOfCards\\" + president.pileDeck[0].cardNumber + " of " + president.pileDeck[0].cardSuit + ".png").toURI().toString(), 50, 80, false, true);
+		Image pileCards = new Image(new File(PicturePath+ president.pileDeck[0].cardNumber + president.pileDeck[0].cardSuit + ".png").toURI().toString(), 50, 80, false, true);
 		ImageView pileCardsView = new ImageView(pileCards); //get the image for the current top card in the pile deck
 		pCards.getChildren().add(pileCardsView);
 		pCards.setAlignment(Pos.CENTER);
@@ -202,7 +204,7 @@ public class PresidentGUI extends Application {
 	private void updateTopCard() 
 	{
 		pCards.getChildren().remove(0); //removes the old image for the top card
-		Image topCard = new Image(new File("C:\\Users\\Christopher\\Desktop\\deckOfCards\\" + president.pileDeck[0].cardNumber + " of " + president.pileDeck[0].cardSuit + ".png").toURI().toString(), 50, 80, false, false); //loads the new image
+		Image topCard = new Image(new File(PicturePath + president.pileDeck[0].cardNumber + president.pileDeck[0].cardSuit + ".png").toURI().toString(), 50, 80, false, false); //loads the new image
 		ImageView topCardView = new ImageView(topCard);
 		pCards.getChildren().add(topCardView); //adds the new top card image
 	}

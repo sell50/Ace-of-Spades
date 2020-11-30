@@ -39,8 +39,11 @@ public class SpoonsGUI extends Application implements EventHandler<ActionEvent>{
 	public Image card;
 	public String message;
 	
-	public SpoonsGUI() {
-		
+	String PicturePath = "C:\\Users\\Brett\\eclipse-workspace\\Ace of Spades\\Cards\\PNG\\";
+	
+	public SpoonsGUI() 
+	{
+		spoons = new Spoons();
 	}
 	
 	public Parent createWindow(Stage stage){
@@ -67,7 +70,7 @@ public class SpoonsGUI extends Application implements EventHandler<ActionEvent>{
 		
 		//Find the card image and add it to each button
 		for(int i = 0; i <= 3; i++) {
-			File file = new File("C:\\Users\\cacil\\Desktop\\School Stuff\\Fall 2020\\Software Engineering\\SpoonsCards\\" + spoons.player.playerHand.Hand[i].cardNumber + spoons.player.playerHand.Hand[i].cardSuit + ".png");
+			File file = new File(PicturePath + spoons.player.playerHand.Hand[i].cardNumber + spoons.player.playerHand.Hand[i].cardSuit + ".png");
 			card = new Image(file.toURI().toString(), 35, 60, false, true);
 			ImageView view = new ImageView(card);
 			playerCards[i] = new Button("", view);
@@ -158,7 +161,7 @@ public class SpoonsGUI extends Application implements EventHandler<ActionEvent>{
 	
 	//Updates card when pressed and the message if applicable from Spoons
 	public void updateMessage(int i) {
-		File file = new File("C:\\Users\\cacil\\Desktop\\School Stuff\\Fall 2020\\Software Engineering\\SpoonsCards\\" + spoons.player.playerHand.Hand[i].cardNumber + spoons.player.playerHand.Hand[i].cardSuit + ".png");
+		File file = new File(PicturePath + spoons.player.playerHand.Hand[i].cardNumber + spoons.player.playerHand.Hand[i].cardSuit + ".png");
 		card = new Image(file.toURI().toString(), 35, 60, false, true);
 		ImageView view = new ImageView(card);
 		playerCards[i].setGraphic(view);
