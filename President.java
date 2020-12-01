@@ -1,4 +1,3 @@
-
 import java.util.Random;
 /*
  * Removed redundant methods and variables to change how program interacts with GUI

@@ -2,10 +2,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
 import javax.imageio.ImageIO;
-
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +16,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import java.util.Scanner;
+import java.util.Random;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.layout.StackPane;
+import javafx.fxml.FXMLLoader;
 
 public class MainMenu extends Application 
 {
@@ -43,16 +48,19 @@ public class MainMenu extends Application
 	Label TitleLabel;
 	Font TitleFont;
 	
-	//Game Objects
-	//Spoons Spoons; Poker Poker; Crazy8s Crazy8s; President President;
+	//Controller Object
+	ObjectCreator object = new ObjectCreator();
 	
 	//Deck Object For Display
 	DeckofCards DoC;
 	DeckofCards deck;
 	
 	//Stage Objects
+	Stage primaryStage;
 	Scene menuScene;
+	Scene scene;
 	Pane root;
+	
 	
 	/*
 	 * Name: Start Function
@@ -65,9 +73,11 @@ public class MainMenu extends Application
 	{
 		try 
 		{
+			this.primaryStage = primaryStage;
+			
 			SceneCreator();
-			primaryStage.setScene(menuScene);
-			primaryStage.show();
+			this.primaryStage.setScene(menuScene);
+			this.primaryStage.show();
 		} 
 		catch(Exception e) 
 		{
@@ -218,7 +228,8 @@ public class MainMenu extends Application
 			try 
 			{
 				//Start Crazy8s Game and Make the GUI Appear
-				//Crazy8s = new Crazy8s();
+				paneToScene(object.crazy8s.createWindow(primaryStage));
+				SceneChange(this.menuScene);
 			} 
 			catch (Exception e1) 
 			{}
@@ -229,9 +240,18 @@ public class MainMenu extends Application
 		{
 			try 
 			{
+				/*
+				 * Write Logic To 
+				 * Switch menuScene 
+				 * With Poker GUI
+				 * */
 				//Start Poker Game and Make the GUI Appear
-				//Poker = new Poker();
-				//Poker.startGame();
+				System.out.println("Before Scene Switch");
+
+				paneToScene(object.poker.createWindow(primaryStage));
+				SceneChange(this.menuScene);
+				object.poker.startGame();
+
 			} 
 			catch (Exception e1) 
 			{}
@@ -243,7 +263,8 @@ public class MainMenu extends Application
 			try 
 			{
 				//Start President Game and Make the GUI Appear
-				//President = new President();
+				paneToScene(object.president.createWindow(primaryStage));
+				SceneChange(this.menuScene);
 			} 
 			catch (Exception e1) 
 			{}
@@ -253,10 +274,10 @@ public class MainMenu extends Application
 		SpoonsBTN.setOnAction(e -> 
 		{
 			try 
-			{
-				//Start Spoons Game and Make the GUI Appear
-				//Spoons = new Spoons();
-				//Spoons.Start();
+			{	
+				//Start President Game and Make the GUI Appear
+				paneToScene(object.spoons.createWindow(primaryStage));
+				SceneChange(this.menuScene);
 			} 
 			catch (Exception e1) 
 			{}
@@ -296,6 +317,25 @@ public class MainMenu extends Application
 		
 		//Creating the menuScene size 600x600
 		menuScene = new Scene(root,600,600);	
+	}
+	
+	
+	public void paneToScene(Parent root)
+	{
+		menuScene = new Scene(root,600,600);
+	}
+	
+	/*
+	 * Name: Scene Change Function
+	 * Type: void
+	 * Description: This function takes in a root Object and then sets the 
+	 * 				primaryStage with the Scene object and displays it. This
+	 * 				function is to be called when a button is pressed.
+	 * */
+	public void SceneChange(Scene scene)
+	{
+		this.primaryStage.setScene(scene);
+		this.primaryStage.show();
 	}
 	
 	/*

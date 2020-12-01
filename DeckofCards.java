@@ -29,7 +29,7 @@ public class DeckofCards
 	 * Type:Void
 	 * Description: Shuffles the populated deck
 	 */
-	public DeckofCards() throws Exception
+	public DeckofCards()
 	{
 		ShuffleDeck(PopulateDeck());
 	}
@@ -40,32 +40,39 @@ public class DeckofCards
 	 * Description: This function is used to generate a standard deck of 52 unique cards
 	 * 				Each card object is then stored in the Deck[] which is returned by the function
 	 */
-	private Card[] PopulateDeck() throws Exception
+	private Card[] PopulateDeck()
 	{
-		
-		//Setting CardBack Image
-		cardBack = new Image(cardBackStream = new FileInputStream(PicturePath+"CardBack.png"));
-		
-		//4 Suits
-		for(int i=0;i<cardSuits.length;i++) 
+		try 
 		{
-			//13 Numbers
-			for(int j=0;j<cardNumbers.length;j++) 
+			//Setting CardBack Image
+			cardBack = new Image(cardBackStream = new FileInputStream(PicturePath+"CardBack.png"));
+			
+			//4 Suits
+			for(int i=0;i<cardSuits.length;i++) 
 			{
-				
-				stream = new FileInputStream(PicturePath+cardNumbers[j]+cardSuits[i]+".png");
-				cardFront = new Image(stream);
-				
-				//Creating Card Objects 
-				card = new Card(cardNumbers[j],cardSuits[i],cardFront,cardBack);
-				
-				//Adding Cards to Deck
-				Deck[cardID]=card;
-				
-				//Increasing the Card Placement in the Deck
-				cardID++;
+				//13 Numbers
+				for(int j=0;j<cardNumbers.length;j++) 
+				{
+					
+					stream = new FileInputStream(PicturePath+cardNumbers[j]+cardSuits[i]+".png");
+					cardFront = new Image(stream);
+					
+					//Creating Card Objects 
+					card = new Card(cardNumbers[j],cardSuits[i],cardFront,cardBack);
+					
+					//Adding Cards to Deck
+					Deck[cardID]=card;
+					
+					//Increasing the Card Placement in the Deck
+					cardID++;
+				}
 			}
 		}
+		catch(Exception e) 
+		{
+			e.printStackTrace();
+		}
+		
 		//Returning Deck of 52
 		return Deck;
 	}

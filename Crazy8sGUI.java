@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 public class Crazy8sGUI extends Application implements EventHandler<ActionEvent>
 {
 
-    Crazy8s crazy8s = new Crazy8s();  //used to add methods in crazy8s() class
+    Crazy8s crazy8s;  //used to add methods in crazy8s() class
 
     //needed variables
     public VBox format1; //outside vbox
@@ -50,10 +50,11 @@ public class Crazy8sGUI extends Application implements EventHandler<ActionEvent>
     public String message; //Shows messages on screen
     int numPlayerCards; //Sets the number of player cards in hand
     
+    String PicturePath = "C:\\Users\\Brett\\eclipse-workspace\\Ace of Spades\\Cards\\PNG\\";
 
 	public Crazy8sGUI() throws Exception
 	{
-		//purposely left empty?
+		crazy8s = new Crazy8s();
 	}
 
 	public Parent createWindow(Stage stage) throws Exception
@@ -93,7 +94,7 @@ public class Crazy8sGUI extends Application implements EventHandler<ActionEvent>
 		for(int i = 0; i < playerCards.length; i++)
 		{
 			System.out.println("*"+crazy8s.player.playerHand.Hand[i].cardNumber + crazy8s.player.playerHand.Hand[i].cardSuit); //test
-			File file = new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.player.playerHand.Hand[i].cardNumber + crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
+			File file = new File(PicturePath + crazy8s.player.playerHand.Hand[i].cardNumber + crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
 			Image cards = new Image(file.toURI().toString(), 35, 60, false, true); //create a new image for each card so that each node is unique with the parent node having no duplicates
 			ImageView cardsView = new ImageView(cards);
 			playerCards[i] = new Button("", cardsView);
@@ -104,7 +105,7 @@ public class Crazy8sGUI extends Application implements EventHandler<ActionEvent>
 		
 		//Discard pile images
 		System.out.println(crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit); //test
-		Image pileCards = new Image(new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit + ".png").toURI().toString(), 50, 80, false, true);
+		Image pileCards = new Image(new File(PicturePath + crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit + ".png").toURI().toString(), 50, 80, false, true);
 		ImageView pileCardsView = new ImageView(pileCards); //get the image for the current top card in the pile deck
 		
 		//HBox set
@@ -143,7 +144,7 @@ public class Crazy8sGUI extends Application implements EventHandler<ActionEvent>
 			for(int i = 0; i < playerCards.length; i++)
 			{
 				
-				File file = new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.player.playerHand.Hand[i].cardNumber +  crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
+				File file = new File(PicturePath + crazy8s.player.playerHand.Hand[i].cardNumber +  crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
 				Image cards = new Image(file.toURI().toString(), 35, 60, false, true); //create a new image for each card so that each node is unique with the parent node having no duplicates
 				ImageView cardsView = new ImageView(cards);
 				playerCards[i] = new Button("", cardsView);
@@ -466,7 +467,7 @@ public class Crazy8sGUI extends Application implements EventHandler<ActionEvent>
 			for(int i = 0; i < playerCards.length; i++)
 			{
 						
-				File file = new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.player.playerHand.Hand[i].cardNumber +  crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
+				File file = new File(PicturePath + crazy8s.player.playerHand.Hand[i].cardNumber +  crazy8s.player.playerHand.Hand[i].cardSuit + ".png");
 				Image cards = new Image(file.toURI().toString(), 35, 60, false, true); //create a new image for each card so that each node is unique with the parent node having no duplicates
 				ImageView cardsView = new ImageView(cards);
 				playerCards[i] = new Button("", cardsView);
@@ -484,7 +485,7 @@ public class Crazy8sGUI extends Application implements EventHandler<ActionEvent>
 	public void updateTopCard()
 	{
 		discardPile.getChildren().remove(0); //removes the old image for the top card
-		Image topCard = new Image(new File("C:\\Users\\Katpa\\Documents\\GitHub\\Ace-of-Spades\\Cards\\PNG\\" + crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit + ".png").toURI().toString(), 50, 80, false, false); //loads the new image
+		Image topCard = new Image(new File(PicturePath + crazy8s.discardPile[0].cardNumber + crazy8s.discardPile[0].cardSuit + ".png").toURI().toString(), 50, 80, false, false); //loads the new image
 		ImageView topCardView = new ImageView(topCard);
 		discardPile.getChildren().add(topCardView); //adds the new top card image
 	}

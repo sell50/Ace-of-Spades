@@ -26,6 +26,8 @@ public class Poker extends Application {
     int [][] amount = new int [6][3] ;//holds both the amount that the ai and player have to bet and the amount that is currently being bet and the fold status 0 being not folded and 1 being folded
     int totalBet;
     int aiCounter;
+    
+    Parent root;
 
     public Poker(){ // initialising all the values
         aiCounter=5;
@@ -55,7 +57,7 @@ public class Poker extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("CardView.fxml"));
+        root = FXMLLoader.<Parent>load(getClass().getResource("CardView.fxml"));
         root.styleProperty().set("-fx-background-color: #35654d");
         Scene scene = new Scene (root,800,600,Color.GREEN);
 
@@ -66,6 +68,21 @@ public class Poker extends Application {
         primaryStage.show();
 
     }
+    
+    public Parent createWindow(Stage stage) //creates the main scene for the game
+	{
+    	try 
+    	{
+            Parent root = FXMLLoader.load(getClass().getResource("C:\\Users\\Brett\\eclipse-workspace\\Ace of Spades\\src\\CardView.fxml"));
+            root.styleProperty().set("-fx-background-color: #35654d");
+    	}
+    	catch(Exception e)
+    	{
+    		
+    	}
+
+    	return root;
+	}
 
     public static void main(String[] args) {
 
@@ -571,6 +588,4 @@ public class Poker extends Application {
         return 0;
 
     }
-
-
 }

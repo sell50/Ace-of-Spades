@@ -9,7 +9,7 @@ public class Card
 	Image cardFront,cardBack;
 	
 	/*
-	 * Name: Default Constructor
+	 * Name: Default Constructor (Overloaded)
 	 * Description: This constructor is used to create a card object with a unique set of values
 	 * */
 	public Card (int cardNumber, String cardSuit, Image cardFront, Image cardBack) 
@@ -25,5 +25,18 @@ public class Card
 		
 		//Updating Global Card Back
 		this.cardBack = cardBack;
+	}
+	
+	/*
+	 * Name: Default Constructor (Overloaded)
+	 * Description: This constructor is used to create a card object with a unique set of values
+	 * */
+	public Card (int cardNumber, String cardSuit) 
+	{
+		//Updating Global Card Number
+		this.cardNumber = cardNumber;
+		
+		//Updating Global Card Suit
+		this.cardSuit = cardSuit;
 	}
 }
