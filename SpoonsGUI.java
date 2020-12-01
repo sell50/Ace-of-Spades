@@ -71,7 +71,7 @@ public class SpoonsGUI extends Application implements EventHandler<ActionEvent>{
 		//Find the card image and add it to each button
 		for(int i = 0; i <= 3; i++) {
 			File file = new File(PicturePath + spoons.player.playerHand.Hand[i].cardNumber + spoons.player.playerHand.Hand[i].cardSuit + ".png");
-			card = new Image(file.toURI().toString(), 35, 60, false, true);
+			card = new Image(file.toURI().toString(), 60, 80, false, true);
 			ImageView view = new ImageView(card);
 			playerCards[i] = new Button("", view);
 			playerCards[i].setOnAction(this);
@@ -162,7 +162,7 @@ public class SpoonsGUI extends Application implements EventHandler<ActionEvent>{
 	//Updates card when pressed and the message if applicable from Spoons
 	public void updateMessage(int i) {
 		File file = new File(PicturePath + spoons.player.playerHand.Hand[i].cardNumber + spoons.player.playerHand.Hand[i].cardSuit + ".png");
-		card = new Image(file.toURI().toString(), 35, 60, false, true);
+		card = new Image(file.toURI().toString(), 60, 80, false, true);
 		ImageView view = new ImageView(card);
 		playerCards[i].setGraphic(view);
 		message = spoons.win;
