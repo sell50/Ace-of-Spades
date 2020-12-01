@@ -57,7 +57,7 @@ public class Poker extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        root = FXMLLoader.load(getClass().getResource("C:\\Users\\Brett\\eclipse-workspace\\Ace of Spades\\src\\CardView.fxml"));
+        root = FXMLLoader.<Parent>load(getClass().getResource("CardView.fxml"));
         root.styleProperty().set("-fx-background-color: #35654d");
         Scene scene = new Scene (root,800,600,Color.GREEN);
 
